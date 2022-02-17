@@ -25,9 +25,18 @@ def get_car_list(csv_filename):
 
     with open(csv_filename) as f:
         reader = csv.reader(f, delimiter=';')
-        next(reader)
+        headers = next(reader)
+        count = len(headers)
+        vals = ["" for i in range(10)]
+        auto_dict = dict(zip(headers, vals))
+
+        print(auto_dict)
         for row in reader:
-            print(row)
+            if row and row[0]:
+                auto_dict = dict(zip(headers, row))
+            print(auto_dict)
+            pass
+        
 
 
     return car_list
