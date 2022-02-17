@@ -1,0 +1,6 @@
+python
+import datetime
+datetime.datetime.now()
+import requests
+requests.get("http://ip-api.com/json/").json()
+exit()
