@@ -1,1 +1,1 @@
-python -m venv ../../b81env/b02env
+python -m venv ../../b02env

@@ -72,15 +72,16 @@ def get_car_list(csv_filename):
                 autos.append(auto)
                 if not 'car_type' in auto:
                     raise ValueError
+
+                if auto['car_type'] == 'car':
+                    vehicle = Car( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['passenger_seats_count'] )
+                if auto['car_type'] == 'truck':
+                    vehicle = Truck( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['body_whl'] )
+                if auto['car_type'] == 'spec_machine':
+                    vehicle = SpecMachine( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['extra'] )
+
             except Exception as exc:
                 continue
-
-            if auto['car_type'] == 'car':
-                vehicle = Car( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['passenger_seats_count'] )
-            if auto['car_type'] == 'truck':
-                vehicle = Truck( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['body_whl'] )
-            if auto['car_type'] == 'spec_machine':
-                vehicle = SpecMachine( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['extra'] )
 
             car_list.append(vehicle)
 
