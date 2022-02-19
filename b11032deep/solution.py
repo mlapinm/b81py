@@ -1,93 +1,102 @@
 import csv
-import re
+import os.path
 
-class CarBase:
+
+class CarBase():
+    """базовый класс для транспортных средств"""
+
+    # атрибут для хранения обязательных параметров класса, описывающего транспортное средство
+    required = []
+
     def __init__(self, brand, photo_file_name, carrying):
-        self.brand = brand
-        self.photo_file_name = photo_file_name
-        self.carrying = float(carrying)
-        self.car_type = None
-        self.get_photo_file_ext()
-        pass
+        self.brand = self.validate_input(brand)
+        self.photo_file_name = self.validate_photo_filename(photo_file_name)
+        self.carrying = float(self.validate_input(carrying))
+
+    def validate_input(self, value):
+        """метод валидации данных, возвращает значение, если оно валидно,
+        иначе выбрасывает исключение ValueError"""
+        if value == '':
+            raise ValueError
+        return value
+
+    def validate_photo_filename(self, filename):
+        for ext in ('.jpg', '.jpeg', '.png', '.gif'):
+            if filename.endswith(ext) and len(filename) > len(ext):
+                return filename
+        raise ValueError
 
     def get_photo_file_ext(self):
-        ext = re.sub(r'.+(\..+)$', r'\1', self.photo_file_name)
+        _, ext = os.path.splitext(self.photo_file_name)
         return ext
+
+    @classmethod
+    def create_from_dict(cls, data):
+        """создает экземпляр класса из словаря с параметрами"""
+        parameters = [data[parameter] for parameter in cls.required]
+        return cls(*parameters)
 
 
 class Car(CarBase):
+    """класс описывающий автомобили для перевозок людей"""
+    car_type = "car"
+    required = ['brand', 'photo_file_name', 'carrying', 'passenger_seats_count']
+
     def __init__(self, brand, photo_file_name, carrying, passenger_seats_count):
         super().__init__(brand, photo_file_name, carrying)
-        self.car_type = 'car'
-        self.passenger_seats_count = int(passenger_seats_count)
-        pass
+        self.passenger_seats_count = int(self.validate_input(passenger_seats_count))
 
 
 class Truck(CarBase):
+    """класс описывающий автомобили для перевозок грузов"""
+    car_type = "truck"
+    required = ['brand', 'photo_file_name', 'carrying', 'body_whl']
+
     def __init__(self, brand, photo_file_name, carrying, body_whl):
         super().__init__(brand, photo_file_name, carrying)
-        self.car_type = 'truck'
-        self.body_whl = body_whl
-        whl = self.body_whl.split('x')
-        self.body_width = 0.0
-        self.body_height = 0.0
-        self.body_length = 0.0
-        try:
-            if len(whl) != 3:
-                raise ValueError()
-            whl = [float(e) for e in whl]
-            self.body_length = whl[0]
-            self.body_width = whl[1]
-            self.body_height = whl[2]
-        except Exception as ex:
-            pass
+        self.body_length, self.body_width, self.body_height = self.parse_whl(body_whl)
 
     def get_body_volume(self):
-        v = 1
-        for a in (self.body_width, self.body_height, self.body_length):
-            v *= a
-        return v
+        """возвращает объем кузова"""
+        return self.body_length * self.body_width * self.body_height
+
+    def parse_whl(self, body_whl):
+        """возвращает реальные размеры кузова length, width, height"""
+        try:
+            length, width, height = (float(c) for c in body_whl.split("x", 2))
+        except Exception:
+            length, width, height = 0.0, 0.0, 0.0
+        return length, width, height
+
 
 class SpecMachine(CarBase):
+    """класс описывающий спецтехнику"""
+
+    car_type = "spec_machine"
+    required = ['brand', 'photo_file_name', 'carrying', 'extra']
+
     def __init__(self, brand, photo_file_name, carrying, extra):
         super().__init__(brand, photo_file_name, carrying)
-        self.car_type = 'spec_machine'
-        self.extra = extra
-        pass
+        self.extra = self.validate_input(extra)
+
 
 def get_car_list(csv_filename):
+    """возвращает список объектов, сохраненных в файле csv_filename"""
+
+    car_types = {'car': Car, 'spec_machine': SpecMachine, 'truck': Truck}
+    csv.register_dialect('cars', delimiter=';')
     car_list = []
-    autos = []
 
-    with open(csv_filename) as f:
-        reader = csv.reader(f, delimiter=';')
-        headers = next(reader)
-        count = len(headers)
-
+    with open(csv_filename, 'r') as file:
+        reader = csv.DictReader(file, dialect='cars')
         for row in reader:
-            vehicle = None
-
             try:
-                auto = dict(zip(headers, row))
-                autos.append(auto)
-                if not 'car_type' in auto:
-                    raise ValueError
-
-                if auto['car_type'] == 'car':
-                    vehicle = Car( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['passenger_seats_count'] )
-                if auto['car_type'] == 'truck':
-                    vehicle = Truck( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['body_whl'] )
-                if auto['car_type'] == 'spec_machine':
-                    vehicle = SpecMachine( auto['brand'], auto['photo_file_name'], auto['carrying'], auto['extra'] )
-
-            except Exception as exc:
-                continue
-
-            car_list.append(vehicle)
-
+                car_class = car_types[row['car_type']]
+                car_list.append(car_class.create_from_dict(row))
+            except Exception:
+                pass
 
     return car_list
-
 
 
 if __name__ == "__main__":
@@ -106,9 +115,3 @@ if __name__ == "__main__":
     cars = get_car_list(file_path + "cars_week3.csv")
     for car in cars:
         car and print(type(car), car.brand)
-
-    v = cars[1].get_body_volume()
-    print(v, len(cars))
-
-
-
