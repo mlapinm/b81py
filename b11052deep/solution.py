@@ -27,6 +27,29 @@ class Client():
         except Exception as exc:
             ClientError("aa")
 
+    def strs_to_json(self, s):
+        obj = {}
+        if s == "ok\n\n":
+            return obj
+        ss = s.split('\n')
+        ss = [e.split(' ') for e in ss if len(e.split(' ')) == 3]
+
+        if len(ss) == 0:
+            raise ClientError
+
+        for e in ss:
+            if self.cpu != '*':
+                if e[0] != self.cpu:
+                    raise ClientError
+
+        obj = {}
+        for e in ss:
+            l = obj.get(e[0], [])
+            l.append((float(e[1]), int(e[2])))
+            obj[e[0]] = l
+        return obj
+
+
     def put(self, cpu, load, timestamp=None):
         if not timestamp:
             timestamp = int(time.time())
@@ -49,34 +72,13 @@ class Client():
         match = re.search(r'^error', resp_str)
         if match:
             raise ClientError()
-        json2 = strs_to_json(resp_str)
+        json2 = self.strs_to_json(resp_str)
         return json2
 
     def __del__(self):
         self.sock.close()
         pass
 
-    def strs_to_json(self, s):
-        obj = {}
-        if s == "ok\n\n":
-            return obj
-        ss = s.split('\n')
-        ss = [e.split(' ') for e in ss if len(e.split(' ')) == 3]
-
-        if len(ss) == 0:
-            raise ClientError
-
-        for e in ss:
-            if self.cpu != '*':
-                if e[0] != self.cpu:
-                    raise ClientError
-
-        obj = {}
-        for e in ss:
-            l = obj.get(e[0], [])
-            l.append((float(e[1]), int(e[2])))
-            obj[e[0]] = l
-        return obj
 
 
 
