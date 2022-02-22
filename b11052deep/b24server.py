@@ -21,7 +21,7 @@ class ClientServerProtocol(asyncio.Protocol):
         match = re.search(r'^get', resp)
         if match:
             resp2 = "ok\npalm.cpu 2.0 1150864247\npalm.cpu 0.5 1150864248\n\n"
-            resp2 = 'error\nwrong command\n\n'
+            # resp2 = 'error\nwrong command\n\n'
             self.transport.write(resp2.encode())
 
         match = re.search(r'^put', resp)

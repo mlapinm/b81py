@@ -45,20 +45,29 @@ class Client():
         obj = {}
         for e in ss:
             l = obj.get(e[0], [])
-            l.append((float(e[1]), int(e[2])))
+            l.append(( int(e[2]), float(e[1]) ))
             obj[e[0]] = l
+
+        for e in obj:
+            l = obj[e]
+            l.sort(key = lambda a: a[0])
+            obj[e] = l
+
         return obj
 
 
     def put(self, cpu, load, timestamp=None):
         if not timestamp:
             timestamp = int(time.time())
-        # timestamp = timestamp and int(time.time())
         req = "put {} {} {}\n".format(cpu, load, timestamp)
         try:
           self.sock.sendall(req.encode("utf8"))
         except Exception as exc:
             ClientError("bb")
+        res = self.sock.recv(1024)
+        if res.decode() != "ok\n\n":
+            raise ClientError
+            
 
     def get(self, cpu):
         self.cpu = cpu
