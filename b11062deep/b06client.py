@@ -63,12 +63,14 @@ class Client():
     def get(self, cpu):
         self.cpu = cpu
         req = "get {}\n".format(cpu)
+        req = "\n"
         try:
             self.sock.sendall(req.encode("utf8"))
             res = self.sock.recv(1024)
         except Exception as exc:
             ClientError("bb")
         resp_str = res.decode('utf8')
+        print(req, 3, resp_str)
         match = re.search(r'^error', resp_str)
         if match:
             # raise ClientError()
@@ -86,15 +88,22 @@ class Client():
 
 
 if __name__ == "__main__":
-    client = Client("127.0.0.1", 8888, timeout=3)
+    client = Client("127.0.0.1", 8181, timeout=3)
     # client.put("palm.cpu", 0.5, timestamp=1150864247)
+    # time.sleep(1)
+    # client.put("palm.cpu", 0.5, timestamp=1150864247)
+    time.sleep(1)
+	
+	
     # client.put("palm.cpu", 0.5)
     # j = client.get("*")
     # print(j)
 	
 	#1 
-    cmd = "test_key"
+    cmd = "test_key1"
+    cmd = "*"
     resp = client.get(cmd)
+    print(resp)
 
 
 	
