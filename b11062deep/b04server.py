@@ -111,15 +111,15 @@ class ClientServerProtocol(asyncio.Protocol):
         req = data.decode()
         reqs = req.split('\n')
         resp = ''
-        if len(reqs) > 1 and reqs[-1] != '':
+        if len(reqs) > 1:
             for e in reqs:
                 e += '\n'
                 if e.strip() != '':
                     resp = process_data(e)
                     print(e,' resp = ', resp)
-        else:
-
+        elif len(reqs) == 2 and reqs[-1] != '':
             resp = process_data(req)
+        resp = process_data(req)
         self.transport.write(resp.encode())
 
 
