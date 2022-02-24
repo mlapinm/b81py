@@ -63,7 +63,7 @@ class Client():
     def get(self, cpu):
         self.cpu = cpu
         req = "get {}\n".format(cpu)
-        req = "\n"
+        # req = "\n"
         try:
             self.sock.sendall(req.encode("utf8"))
             res = self.sock.recv(1024)
@@ -89,9 +89,9 @@ class Client():
 
 if __name__ == "__main__":
     client = Client("127.0.0.1", 8181, timeout=3)
-    # client.put("palm.cpu", 0.5, timestamp=1150864247)
+    client.put("palm.cpu", 0.5, timestamp=1150864247)
     # time.sleep(1)
-    # client.put("palm.cpu", 0.5, timestamp=1150864247)
+    client.put("palm.cpu", 0.5, timestamp=1150864247)
     time.sleep(1)
 	
 	
