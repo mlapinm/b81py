@@ -99,6 +99,7 @@ if __name__ == "__main__":
     cmd = "test_key1"
     cmd = "*"
     resp = client.get(cmd)
+    print(resp)
 
 
 

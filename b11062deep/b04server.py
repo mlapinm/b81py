@@ -30,78 +30,111 @@ cpus = {
     # 'test_key2': [(123, 0.3), (124, 0.4), (125, 0.5)],
 }
 
+
 def process_data(data):
-    res = ''
-    cmd = ''
-    other = '' 
-    try:   
-        cmd, other = data.split(' ', 1)
-        cmd = cmd.strip()
-        other = other.strip()
-        # print(1, cmd, 2, other, 3)
-        if cmd == 'get':
-            if len(other.split()) != 1:
-                raise ValueError
-        if cmd == 'put':
-            if len(other.split()) != 3:
-                raise ValueError
-    except Exception:
-        print('ValueError')
-        cmd = 'error'
-    cmd = cmd.strip()
-    other = other.strip()
-    if cmd == "get":
-        res = 'ok\n'
-        if other == '*':
-            for e in cpus:
-                for t in cpus[e]:
-                    s = '{} {} {}'.format(e, t[1], t[0])
-                    s += '\n\n'
-                    res += s
-            if res == 'ok\n':
-                res = 'ok\n\n'
+
+    def append_list(e, l):
+        res = []
+        l0 = [e[0] for e in l]
+        e0 = e[0]
+        if not e0 in l0:
+            l.append(e)
+            l.sort(key = lambda e: e[0])
+            res = l
         else:
-            cpu = cpus.get(other, '')
-            if not other in cpus:
-                res = 'ok\n\n'
+            i = l0.index(e0)
+            l[i] = e
+            res = l
+        return res
+
+
+    def cpus_all():
+        cpu_str = ''
+        for e in cpus:
+            for t in cpus[e]:
+                s = '{} {} {}'.format(e, t[1], t[0])
+                s += '\n'
+                cpu_str += s
+
+        return cpu_str
+
+    def cpus_key(cpu):
+        cpu_str = ''
+        if not cpu in cpus:
+            cpu_str = ''
+        else:
+            for e in cpus[cpu]:
+                s = '{} {} {}'.format(cpu, e[1], e[0])
+                s += '\n'
+                cpu_str += s 
+        return cpu_str
+
+
+    def get_request(data):
+        req_method = 'error'
+        req_payload = ''
+        if ' ' in data:
+            req_method, req_payload = data.split(' ', 1)
+
+        req = (req_method, req_payload)
+        # print(req)
+        return req
+
+    def get_response(payload):
+        response = 'get'
+        if '*\n' in payload:
+            cpu_str = cpus_all()
+            response = 'ok\n' + cpu_str + '\n'
+        else:
+            match = re.search(r'^([\w\.]+)\n', payload)
+            cpu = match and match[1]
+            cpu = cpu or ''
+            cpu_str = cpus_key(cpu)
+            if cpu != '':
+                response = 'ok\n' + cpu_str + '\n'
             else:
-                for e in cpus[other]:
-                    s = '{} {} {}'.format(other, e[1], e[0])
-                    s += '\n\n'
-                    res += s 
-    elif cmd == "put":
+                response = 'error\nwrong command\n\n'
+        return response
+        pass
 
-        def append_list(e, l):
-            res = []
-            l0 = [e[0] for e in l]
-            e0 = e[0]
-            if not e0 in l0:
-                l.append(e)
-                l.sort(key = lambda e: e[0])
-                res = l
-            else:
-                i = l0.index(e0)
-                l[i] = e
-                res = l
-            return res
+    def put_response(payload):
+        response = ''
+        payload = payload.strip()
+        rows = payload.splitlines()
+        try:
+            for row in rows:
+                cpu, load, timestamp = row.split()
 
-        strs = other.split(' ')
-        strs = [e.strip() for e in strs]
-        if len(strs) == 3:
-            try:
-                load = float(strs[1])
-                time2 = int(strs[2])
-                l = cpus.get(strs[0], [])
+                loads = cpus.get(cpu, [])
 
-                l = append_list((time2, load), l)
+                loads = append_list((int(timestamp), float(load)), loads)
 
-                cpus[strs[0]] = l
-                res = 'ok\n\n'
-            except Exception:
-                res = 'error\nwrong command\n\n'
+                # loads += [(int(timestamp), float(load))]
+                # loads.sort(key = lambda e: e[0])
+
+                cpus[cpu] = loads
+            response = 'ok\n\n'
+        except Exception:
+            response = 'error\nwrong command\n\n'
+        return response
+        pass
+
+    def error_response():
+        return 'error\nwrong command\n\n'
+
+    req_method, req_payload = get_request(data)
+    # print('req_method:',req_method, ', req_payload:', req_payload)
+    response = ''
+    if req_method == 'get' and req_payload.strip() != '':
+        response = get_response(req_payload)
+    elif req_method == 'put':
+        response = put_response(req_payload)
     else:
-        res = 'error\nwrong command\n\n'
-    return res
+        response = error_response()
+
+    # print('response =', response)
+    return response
+
 
 class ClientServerProtocol(asyncio.Protocol):
     def connection_made(self, transport):
@@ -109,16 +142,6 @@ class ClientServerProtocol(asyncio.Protocol):
 
     def data_received(self, data):
         req = data.decode()
-        reqs = req.split('\n')
-        resp = ''
-        if len(reqs) > 2:
-            for e in reqs:
-                e += '\n'
-                if e.strip() != '':
-                    resp = process_data(e)
-                    print(e,' resp = ', resp)
-        elif len(reqs) == 2 and reqs[0].stip()+reqs[1].strip() != '':
-            resp = process_data(req)
         resp = process_data(req)
         self.transport.write(resp.encode())
 
@@ -128,6 +151,5 @@ if __name__ == "__main__":
     run_server("127.0.0.1", 8181)
 
     pass
-
 
 
