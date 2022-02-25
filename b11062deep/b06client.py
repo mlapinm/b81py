@@ -57,6 +57,7 @@ class Client():
         req = "put {} {} {}\n".format(cpu, load, timestamp)
         try:
           self.sock.sendall(req.encode("utf8"))
+          print(2, req)
         except Exception as exc:
             ClientError("bb")
 
@@ -91,23 +92,13 @@ if __name__ == "__main__":
     client = Client("127.0.0.1", 8181, timeout=3)
     client.put("palm.cpu", 0.5, timestamp=1150864247)
     # time.sleep(1)
-    client.put("palm.cpu", 0.5, timestamp=1150864247)
+    client.put("palm.cpu", 0.5, timestamp=1150864248)
     time.sleep(1)
-	
-	
-    # client.put("palm.cpu", 0.5)
-    # j = client.get("*")
-    # print(j)
 	
 	#1 
     cmd = "test_key1"
     cmd = "*"
     resp = client.get(cmd)
-    print(resp)
 
 
-	
-    cmd = "get " + cmd
-    print(cmd)
-    print(resp.strip())
 
