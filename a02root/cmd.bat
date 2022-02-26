@@ -1,0 +1,2 @@
+ls
+cmd.exe /k
