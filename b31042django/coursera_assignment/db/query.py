@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 from unicodedata import name
 
 from django.db.models import Q, Count, Avg
@@ -30,7 +31,7 @@ def create():
     blog2.subscribers.add(u2)
     topic1 = Topic(title="topic1", blog=blog1, author=u1)
     topic1.save()
-    date_2017 = datetime(2017, 1, 1)
+    date_2017 = datetime(2017, 1, 1, tzinfo=timezone.utc)
     topic2 = Topic(title="topic2_content", blog=blog1, author=u3, created=date_2017)
     topic2.save()
     topic1.likes.add(u1, u2, u3)
@@ -40,17 +41,6 @@ def edit_all():
     for e in User.objects.all():
         e.first_name = 'uu1'
         e.save()
-    user_n = User.objects.all().count()
-    user_names = [e.first_name for e in User.objects.all()]
-    print(user_n, user_names)
-
-    blog_n = Blog.objects.all().count()
-    blog_titles = [e.title for e in Blog.objects.all()]
-    print(blog_n, blog_titles)
-
-    topic_n = User.objects.all().count()
-    topics_titles = [e.title for e in Topic.objects.all()]
-    print(topic_n, topics_titles)
 
 def edit_u1_u2():
 
@@ -58,8 +48,6 @@ def edit_u1_u2():
         if e.first_name == 'u1' or e.first_name == 'u2':
             e.first_name = 'uu1'
             e.save()
-
-
 
 def delete_u1():
 
@@ -79,25 +67,15 @@ def unsubscribe_u2_from_blogs():
                 blogs[0].subscribers.remove(e)
 
 
-
 def get_topic_created_grated():
-    date1 = datetime(2010, 1, 1)
-    date2 = datetime(2009, 1, 1)
-
-    # topics = Topic.objects.filter(Q(created > date1))
-
-
-
-    print(222, date2 > date1)
-
-    pass
-
+    topics = None
+    date_2018 = datetime(2018, 1, 1, tzinfo=timezone.utc)
+    topics = Topic.objects.filter(created__gt=date_2018)
+    print(1)
+    return topics
 
 def get_topic_title_ended():
-
     topics = Topic.objects.order_by('-pk')[:2]
-    # topics_view = [e.title for e in topics]
-    # print(333, len(topics), topics_view)
     return topics
 
 
@@ -163,4 +141,4 @@ def show_users_all():
 
 if __name__ == "__main__":
     create()
-    print(222)
+    print(2222)
