@@ -5,23 +5,17 @@ from django.db import models
 
 # Create your models here.
 
-class User(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
 
+class Author(models.Model):
+    name = models.CharField(max_length=200) 
+    email = models.EmailField()
 
 class Blog(models.Model):
-    title = models.CharField(max_length=255)
-    author = models.ForeignKey(User)
-    created = models.DateTimeField(default=timezone.now)
+    name = models.CharField(max_length=100) 
+    tagline = models.TextField()
 
-    subscribers = models.ManyToManyField(User, related_name='subscriptions')
+class Entry(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE) 
+    headline = models.CharField(max_length=255, blank=True, null=True, default=None)
+    authors = models.ManyToManyField(Author)
 
-
-class Topic(models.Model):
-    title = models.CharField(max_length=255)
-    blog = models.ForeignKey(Blog)
-    author = models.ForeignKey(User)
-    created = models.DateTimeField(default=timezone.now)
-
-    likes = models.ManyToManyField(User, related_name='likes')
