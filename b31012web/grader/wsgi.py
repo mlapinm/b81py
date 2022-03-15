@@ -14,3 +14,14 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "grader.settings")
 
 application = get_wsgi_application()
+
+from db.query import *
+print(1234)
+create()
+# all_entries()
+# simple_filter()
+# exclude()
+complex()
+
+
+show_tables()

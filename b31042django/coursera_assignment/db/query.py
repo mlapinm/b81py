@@ -115,6 +115,7 @@ def get_user_that_dont_have_blog():
     for e in blogs:
         print(e.subscribers.all(), len(e.subscribers.all()))
     blogs = Blog.objects.select_related('author')
+    blogs = Blog.objects.filter('blog__user')
     print(3333, blogs)
     pass
 
