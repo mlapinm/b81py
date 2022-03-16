@@ -17,5 +17,8 @@ class Blog(models.Model):
 class Entry(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE) 
     headline = models.CharField(max_length=255, blank=True, null=True, default=None)
+    views = models.IntegerField(default=0) 
     authors = models.ManyToManyField(Author)
+
+
 

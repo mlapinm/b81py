@@ -23,7 +23,7 @@ print('hello 9')
 # code = subprocess.call(["C:\Program Files\Google\Chrome\Application\chrome.exe", "http://127.0.0.1:8000/template/echo/?c=1"])
 # code = subprocess.call([r"D:\avi02prog\b81env\b81py\b31042django\startcmd.cmd"])
 from db.query import *
-# create()
+create()
 # edit_all()
 # edy
 # it_u1_u2()
@@ -31,14 +31,15 @@ from db.query import *
 # unsubscribe_u2_from_blogs()
 # get_topic_created_grated()
 # get_topic_title_ended()
-# get_avg_topic_count()
+# get_topic_count()
+get_avg_topic_count()
 # get_blog_that_have_more_than_one_topic()
 # get_topic_by_u1()
 
 # get_user_that_dont_have_blog()
-# show_users_all()
+# get_topic_that_like_all_users()
+# get_topic_that_dont_have_like()
 
-from db.query2 import *
-create()
+show_users_all()
 
-show_tables()
+

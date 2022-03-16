@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.db.models import Q, Count, Avg
+from django.db.models import Q, Count, Avg, Max, FloatField
 from pytz import UTC
 
 from db.models import Author, Blog, Entry
@@ -66,8 +66,8 @@ def comlex_filter_q():
 def contains():
     '''
     contains, icontains
-    startwith, istartwith
-    endwith, iendwith
+    startswith, istartswith
+    endswith, iendswith
     in
     gt, gte, lt, lte
     range
@@ -107,23 +107,33 @@ def isnull():
     entries = Entry.objects.all()
     print(entries)
     blogs = Blog.objects.filter(entry__headline__isnull=True)
+    # blogs = Blog.objects.filter(entry____isnull=False, entry__headline__isnull=True)
     blogs and print(blogs[0].name)
 
-def get_topic_count():
+def order_by():
+    blogs = Blog.objects.all().order_by('-name', 'tagline')
+    blogs_names = [e.name for e in blogs]
+    print(blogs_names)
+
+def limit_offset():
+    blogs = Blog.objects.all()[1: 5]
+    blogs_names = [e.name for e in blogs]
+    print(blogs_names)
+
     pass
 
 
-def get_avg_topic_count():
+def aggregate():
+    n1 = Blog.objects.all().count()
+    n2 = Blog.objects.all().aggregate(Count('pk'))
+    print(4, n1, n2)
+    entries = Entry.objects.aggregate(diff=Max('views', output_field=FloatField())	- Avg('views'))
+    print(entries)
+
+def annotate():
+    blogs = Blog.objects.annotate(entry_count=Count('entry')).filter(entry_count__lt=1)
+    print(blogs, Count('entry'))
     pass
-
-
-def get_blog_that_have_more_than_one_topic():
-    pass
-
-
-def get_topic_by_u1():
-    pass
-
 
 def get_user_that_dont_have_blog():
     pass

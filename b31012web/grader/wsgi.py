@@ -16,7 +16,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "grader.settings")
 application = get_wsgi_application()
 
 from db.query import *
-print(1234)
+
 create()
 # all_entries()
 # simple_filter()
@@ -27,5 +27,10 @@ create()
 # relashinships()
 # reverse_relashionships()
 # distinct()
-isnull()
+# isnull()
+# order_by()
+# limit_offset()
+# aggregate()
+annotate()
+
 show_tables()

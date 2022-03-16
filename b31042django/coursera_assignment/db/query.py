@@ -16,6 +16,10 @@ def create():
         e.delete()
         pass
 
+    for e in Topic.objects.all():
+        e.delete()
+        pass
+
     u1 = User(first_name = 'u1', last_name = 'u1')
     u2 = User(first_name = 'u2', last_name = 'u2')
     u3 = User(first_name = 'u3', last_name = 'u3')
@@ -55,50 +59,53 @@ def delete_u1():
     if len(users) > 0:
         users[0].delete()
 
-
 def unsubscribe_u2_from_blogs():
-
-    blogs = Blog.objects.filter(title="blog1")
-
-    if len(blogs) > 0:
-        subscribers = blogs[0].subscribers.all()
+    blogs = Blog.objects.all()
+    for blog in blogs:
+        subscribers = blog.subscribers.all()
         for e in subscribers:
             if e.first_name == 'u2':
-                blogs[0].subscribers.remove(e)
-
+                blog.subscribers.remove(e)
 
 def get_topic_created_grated():
     topics = None
     date_2018 = datetime(2018, 1, 1, tzinfo=timezone.utc)
     topics = Topic.objects.filter(created__gt=date_2018)
-    print(1)
     return topics
 
 def get_topic_title_ended():
-    topics = Topic.objects.order_by('-pk')[:2]
+    topics = Topic.objects.filter(title__endswith='content')
     return topics
 
-
 def get_user_with_limit():
-    pass
-
+    users = User.objects.order_by('-pk')[:2]
+    return users
 
 def get_topic_count():
-    pass
-
+    topics = Blog.objects.annotate(topic_count = Count('topic')).order_by('topic_count')
+    # print(33, [e.title for e in topics])
+    return topics
 
 def get_avg_topic_count():
-    count_blog = Blog.objects.count()
-    qn = 'qn'
-    q = Blog.objects.aggregate(qn=Count('topic'))
-    count_topic = q[qn]
-    avg_topic_count = count_topic // count_blog
+
+    avg_topic_count = Blog.objects.annotate(topic_count=Count('topic')).aggregate(avg=Avg('topic_count'))
+    print(33, avg_topic_count)
+    # aggregate(avg=Avg('topic_count')
+
+
     return avg_topic_count
+
+    # count_blog = Blog.objects.count()
+    # qn = 'qn'
+    # q = Blog.objects.aggregate(qn=Count('topic'))
+    # count_topic = q[qn]
+    # avg_topic_count = count_topic // count_blog
+    # return avg_topic_count
 
 
 
 def get_blog_that_have_more_than_one_topic():
-    count = Blog.objects.annotate(topic_count=Count('topic')).filter(topic_count__gt=1).count()
+    count = Blog.objects.annotate(topic_count=Count('topic')).filter(topic_count__gt=1)
     return count
 
 
@@ -110,22 +117,20 @@ def get_topic_by_u1():
 
 
 def get_user_that_dont_have_blog():
-    blogs = None
-    blogs = Blog.objects.all()
-    for e in blogs:
-        print(e.subscribers.all(), len(e.subscribers.all()))
-    blogs = Blog.objects.select_related('author')
-    blogs = Blog.objects.filter('blog__user')
-    print(3333, blogs)
-    pass
-
+    users = None
+    users = User.objects.all().annotate(count1=Count('blog')).filter(count1__lt=1)
+    users_names = [e.first_name for e in users]
+    print(users_names)
+    return users
 
 def get_topic_that_like_all_users():
-    pass
-
+    count_all = User.objects.all().count()
+    topics = Topic.objects.annotate(count_users=Count('likes')).filter(count_users=count_all)
+    return topics
 
 def get_topic_that_dont_have_like():
-    pass
+    topics = Topic.objects.annotate(count_users=Count('likes')).filter(count_users__lt=1)
+    return topics
 
 def show_users_all():
     user_n = User.objects.all().count()
@@ -140,6 +145,4 @@ def show_users_all():
     topics_titles = [e.title for e in Topic.objects.all()]
     print(topic_n, topics_titles)
 
-if __name__ == "__main__":
-    create()
-    print(2222)
+
