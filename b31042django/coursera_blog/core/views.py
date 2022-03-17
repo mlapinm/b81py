@@ -7,7 +7,8 @@ import re
 
 
 def index(request):
-  return HttpResponse('ok')
+  # return HttpResponse('ok')
+  return render(request, 'core/index.html')
 
 @csrf_exempt
 def simple_route(request):
