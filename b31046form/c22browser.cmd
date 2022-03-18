@@ -1,1 +1,0 @@
-explorer "https://google.com"
