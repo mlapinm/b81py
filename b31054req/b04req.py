@@ -1,5 +1,6 @@
 
 # https://qna.habr.com/q/919711
+# https://docs-python.ru/packages/modul-requests-python/autentifikatsija-modulem-requests/
 
 import requests
 import base64
