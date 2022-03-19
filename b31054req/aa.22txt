@@ -1,0 +1,1 @@
+{'login': 'alibaba', 'password': '40razboinikov', 'path': 'submissions/secretlocation/', 'instructions': 'Сделайте PUT запрос на тот же хост, но на path указанный в этом документе c логином и паролем из этого документа. Логин и пароль также передайте в заголовке Authorization.'}

@@ -6,6 +6,7 @@ source ~/venv/coursera/bin/activate
 
 code
 D:\programs\b81env\b04env\Scripts\python.exe
+D:\avi02prog\b81env\b04env\Scripts\python
 
 formdummy/apps.py
 from django.apps import AppConfig

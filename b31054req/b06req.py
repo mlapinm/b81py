@@ -1,13 +1,13 @@
 
 import requests
-import base64
+import json
 
-from requests.auth import HTTPBasicAuth
+from requests.auth import HTTPBasicAuth 
 
-url = 'https://datasend.webpython.graders.eldf.ru/submissions/1/'
+url = 'http://datasend.webpython.graders.eldf.ru/submissions/1/'
 
 name = 'alladin'
-password = 'opensame'
+password = 'opensesame'
 
 resp = requests.post(
     url, auth = HTTPBasicAuth(
@@ -17,5 +17,10 @@ resp = requests.post(
 )
 print(resp.request.headers['Authorization'])
 print(resp.text)
+with open('aa.txt', 'w', encoding='utf-8') as f:
+    f.write(resp.text)
+text = resp.text    
 print(resp)
 
+data = json.loads(text)
+print(data)

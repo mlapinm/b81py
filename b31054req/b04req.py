@@ -1,20 +1,21 @@
 
-# https://qna.habr.com/q/919711
-# https://docs-python.ru/packages/modul-requests-python/autentifikatsija-modulem-requests/
-
 import requests
-import base64
+from requests.auth import HTTPBasicAuth 
 
-url = 'https://datasend.webpython.graders.eldf.ru/submissions/1/'
-name = 'alladin'
-password = 'opensame'
+url = 'http://datasend.webpython.graders.eldf.ru/submissions/secretlocation/'
 
-resp = requests.post(
-    url, auth = (
-        base64.b64encode(name.encode()),
-        base64.b64encode(password.encode())
-    )
+name = 'alibaba'
+password = '40razboinikov'
+
+resp = requests.put(
+    url, auth = HTTPBasicAuth(
+        name,
+        password
+    ),
+    data={"answer": "w3lc0m370ch4p73r4.2"}
 )
-print(resp.request.headers['Authorization'])
-print(resp.text)
+
 print(resp)
+print(resp.text)
+ans = {"answer": "w3lc0m370ch4p73r4.2"}
+
