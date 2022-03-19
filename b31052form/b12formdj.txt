@@ -1,1 +1,7 @@
 formdj
+echo #forms.py > formdummy\forms.py
+echo formdj.html > formdummy\templates\formdj.html
+echo error.html > formdummy\templates\error.html
+
+
+
