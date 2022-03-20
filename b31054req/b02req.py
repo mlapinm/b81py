@@ -1,4 +1,5 @@
 
+import json
 from wsgiref import headers
 import requests
 import base64
@@ -23,5 +24,11 @@ resp = None
 # resp = requests.post(url, headers = {'Authorization': 'Basic {}'.format(np)})
 resp and print(resp.request.headers['Authorization'])
 resp and print(resp.text)
-print(resp)
+# print(resp)
+s = b"'{grade:42,feedback:hello}'".decode()
+j = None
+j = json.loads(s)
+print(s)
+print(j)
+
 

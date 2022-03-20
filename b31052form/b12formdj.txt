@@ -1,7 +1,29 @@
-formdj
+formdj django
 echo #forms.py > formdummy\forms.py
 echo formdj.html > formdummy\templates\formdj.html
 echo error.html > formdummy\templates\error.html
 
+schema jsonschema
+pip install jsonschema
+echo #jsviews.py > formdummy\jsviews.py
+echo #schemas.py > formdummy\schemas.py
 
+curl -v -H "Content-Type: application/json" -X POST -d "{\"grade\":42,\"feedback\":\"hello\"}" http://127.0.0.1:8000/form/schema/
 
+marsh marshmallow
+pip install marshmallow==2.6.0
+echo #marshviews.py > formdummy\marshviews.py
+
+curl -v -H "Content-Type: application/json" -X POST -d "{\"grade\":42,\"feedback\":\"hello\"}" http://127.0.0.1:8000/form/marsh/
+
+auth
+manage.py migrate
+./manage.py shell
+from django.contrib.auth.models import User
+user = User.objects.create user('hello', 'hello@example.org', 'world')
+user.save()
+exit()
+
+mkdir templates
+mkdir templates\registration
+echo login.html > templates\registration\login.html

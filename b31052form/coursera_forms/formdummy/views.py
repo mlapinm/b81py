@@ -3,8 +3,9 @@ from django.views import View
 
 from .schemaviews import FormSchemaView
 from .forms import DjangoForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class FormDjangoView(View):
+class FormDjangoView(LoginRequiredMixin, View):
     def get(self, request):
         form = DjangoForm()
         return render(request, 'formdj.html', {'form': form})
