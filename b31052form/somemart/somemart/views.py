@@ -4,15 +4,20 @@ from django.http import HttpResponse, JsonResponse
 from django.views import View
 
 from .models import Item, Review
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator 
 
-
+@method_decorator(csrf_exempt, name='dispatch') 
 class AddItemView(View):
     """View для создания товара."""
-
+    @csrf_exempt    
     def post(self, request):
         # Здесь должен быть ваш код
-        return JsonResponse(data, status=201)
 
+        data = json.loads(request.body)
+
+        print(data)
+        return JsonResponse(data, status=201)
 
 class PostReviewView(View):
     """View для создания отзыва о товаре."""

@@ -18,7 +18,8 @@ echo python manage.py runserver > runserver.cmd
 
 sm2 GetItemsView
 
-
+---
+sm3 AddItemView json.loads
 
 
 
