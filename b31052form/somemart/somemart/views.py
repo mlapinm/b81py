@@ -32,3 +32,15 @@ class GetItemView(View):
     def get(self, request, item_id):
         # Здесь должен быть ваш код
         return JsonResponse(data, status=200)
+
+class GetItemsView(View):
+    """View для получения информации о товаре.
+
+    Помимо основной информации выдает последние отзывы о товаре, не более 5
+    штук.
+    """
+
+    def get(self, request):
+        # Здесь должен быть ваш код
+        data = {}
+        return JsonResponse(data, status=200)
