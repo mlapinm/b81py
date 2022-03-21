@@ -3,6 +3,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('feedback/', views.FeedbackView.as_view()),
+    path('add/', views.FeedbackCreateView.as_view(), name='feedback-create'),
 ]
 
