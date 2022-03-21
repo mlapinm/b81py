@@ -1,0 +1,30 @@
+samemart
+
+pip install pipenv
+pipenv install --dev
+pipenv --venv
+C:\Users\freon\.virtualenvs\somemart-A-GY--OA
+
+somemartD:\programs\b81env\b81py\b31052form\somemart>
+
+pipenv shell
+
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+
+http://127.0.0.1:8000/
+
+echo python manage.py runserver > runserver.cmd
+
+
+
+
+
+
+
+
+
+
+
+
+https://pythonchik.ru/okruzhenie-i-pakety/pipenv-menedzher-zavisimostej-python
