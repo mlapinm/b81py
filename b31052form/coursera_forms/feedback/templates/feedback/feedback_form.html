@@ -5,12 +5,11 @@
 </head>
 <body>
 <hl>Форма отзыва</hl>
-<form method="post" enctype="multipart/form-data" action="/form/simple/"> 
+<form method="post" enctype="multipart/form-data" action="/feedback/add/"> 
   {% csrf_token %}
   {{ form }}
   <input id="feedback-submit" type="submit">
 </form>
-<hr>
 <hr>
 </body>
 </html>

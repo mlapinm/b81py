@@ -20,7 +20,7 @@ auth
 manage.py migrate
 ./manage.py shell
 from django.contrib.auth.models import User
-user = User.objects.create user('hello', 'hello@example.org', 'world')
+user = User.objects.create_user('hello', 'hello@example.org', 'world')
 user.save()
 exit()
 
@@ -75,5 +75,7 @@ fb4
 mkdir feedback\templates
 mkdir feedback\templates\feedback
 echo feedback_form.html >  feedback\templates\feedback\feedback_form.html
+fb5
+
 
 
