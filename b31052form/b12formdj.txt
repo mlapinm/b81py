@@ -61,8 +61,9 @@ INSTALLED_APPS = [
 
 urls.py
 urlpatterns = [
-    path('feedback/', include('feedbak.urls')),
+    path('feedback/', include('feedback.urls')),
 ]
 
-
-
+fb1
+echo urls.py > feedback\urls.py
+fb2
