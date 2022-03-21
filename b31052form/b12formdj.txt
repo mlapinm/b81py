@@ -67,3 +67,6 @@ urlpatterns = [
 fb1
 echo urls.py > feedback\urls.py
 fb2
+manage.py makemigrations feedback
+manage.py migrate
+fb3
