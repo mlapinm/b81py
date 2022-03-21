@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Ter form</title>
+</head>
+<body>
+<hl>Форма отзыва</hl>
+<form method="post" enctype="multipart/form-data" action="/form/simple/"> 
+  {% csrf_token %}
+  {{ form }}
+  <input id="feedback-submit" type="submit">
+</form>
+<hr>
+<hr>
+</body>
+</html>

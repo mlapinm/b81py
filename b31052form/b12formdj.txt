@@ -72,3 +72,8 @@ manage.py migrate
 fb3
 
 fb4
+mkdir feedback\templates
+mkdir feedback\templates\feedback
+echo feedback_form.html >  feedback\templates\feedback\feedback_form.html
+
+
