@@ -76,6 +76,8 @@ mkdir feedback\templates
 mkdir feedback\templates\feedback
 echo feedback_form.html >  feedback\templates\feedback\feedback_form.html
 fb5
+echo feedback_list.html >  feedback\templates\feedback\feedback_list.html
+fb6
 
 
 
