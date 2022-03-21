@@ -10,11 +10,15 @@ from django.utils.decorators import method_decorator
 @method_decorator(csrf_exempt, name='dispatch') 
 class AddItemView(View):
     """View для создания товара."""
+
+    model = Item
+
     @csrf_exempt    
     def post(self, request):
         # Здесь должен быть ваш код
 
         data = json.loads(request.body)
+        # self.model.objects.add
 
         print(data)
         return JsonResponse(data, status=201)
