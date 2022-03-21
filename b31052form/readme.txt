@@ -8,6 +8,13 @@ code
 D:\programs\b81env\b04env\Scripts\python.exe
 D:\avi02prog\b81env\b04env\Scripts\python
 
+pip install django
+django-admin startproject coursera_forms
+cd coursera_forms
+python manage.py startapp formdummy
+
+
+
 formdummy/apps.py
 from django.apps import AppConfig
 
