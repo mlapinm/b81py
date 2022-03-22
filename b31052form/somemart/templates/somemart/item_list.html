@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Item</title>
+</head>
+<body>
+  <h3>Goods</h3>
+  {% for item in item_list %}
+  <li>{{ item.pk }} {{ item.title }} - {{ item.description }} {{ item.price }}</li>
+  {% empty %}
+  <li>Not goods.</li>
+  {% endfor %}
+</body>
+</html>
+
+

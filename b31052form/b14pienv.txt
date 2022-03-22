@@ -6,6 +6,7 @@ pipenv --venv
 C:\Users\freon\.virtualenvs\somemart-A-GY--OA
 
 somemartD:\programs\b81env\b81py\b31052form\somemart>
+C:\Users\User\.virtualenvs\somemart-By35uIeW
 
 pipenv shell
 
@@ -21,7 +22,9 @@ sm2 GetItemsView
 ---
 sm3 AddItemView json.loads
 
-
+mkdir templates
+mkdir templates\somemart
+echo item_list.html > templates\somemart\item_list.html
 
 
 
