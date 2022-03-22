@@ -26,6 +26,24 @@ mkdir templates
 mkdir templates\somemart
 echo item_list.html > templates\somemart\item_list.html
 
+http://127.0.0.1:8000/api/v1/goods/1/
+
+echo b04rewiew.py > b04rewiew.py
+
+echo #schemas.py > somemart\schemas.py
+
+        t = validate(data, REVIEW_SCHEMA)
+        print(2222)
+        # print(3333, t)
+
+
+
+
+
+echo #schemas.py > schemas.py
+
+form = DjangoForm()
+
 
 
 
