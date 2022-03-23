@@ -8,8 +8,49 @@ from .models import Item, Review
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator 
 
-from .schemas import REVIEW_SCHEMA
 from jsonschema import validate
+
+ITEM_SCHEMA = {
+  '$schema': 'http://json-schema.org/schema#', 
+  'type': 'object', 
+  'properties': {
+      "title": {
+          'type': 'string',
+          'minLength': 1,
+          'maxLength': 64, 
+      },
+      "description": {
+          'type': 'string',
+          'minLength': 1,
+          'maxLength': 1024, 
+      },
+      "price": {
+          'type': 'integer',
+          'minimum': 1, 
+          'maximum': 1000000 
+      },
+  },
+  'required': ['title', 'description', 'price']
+}
+
+REVIEW_SCHEMA = {
+  '$schema': 'http://json-schema.org/schema#', 
+  'type': 'object', 
+  'properties': {
+      "text": {
+          'type': 'string',
+          'minLength': 1,
+          'maxLength': 1024, 
+      },
+      "grade": {
+          'type': 'integer',
+          'minimum': 1, 
+          'maximum': 10 
+      },
+  },
+  'required': ['text', 'grade']
+}
+
 
 @method_decorator(csrf_exempt, name='dispatch') 
 class AddItemView(View):
@@ -19,14 +60,17 @@ class AddItemView(View):
 
     @csrf_exempt    
     def post(self, request):
-        # Здесь должен быть ваш код
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
+            validate(data, ITEM_SCHEMA)
+        except:
+            return HttpResponse(status=400)
+
         item = Item(**data)
         item.save()
-
-        # print(data)
-        # print(item)
-        return JsonResponse(data, status=201)
+        item_pk ='{}'.format(item.pk)
+        resp_data = {"id": item.pk}
+        return JsonResponse(resp_data, status=201)
 
 @method_decorator(csrf_exempt, name='dispatch') 
 class PostReviewView(View):
@@ -35,7 +79,6 @@ class PostReviewView(View):
     @csrf_exempt    
     def post(self, request, item_id):
         # rev = json.loads(request.body)
-        print(2222, request.body)
         try:
             data = json.loads(request.body)
             validate(data, REVIEW_SCHEMA)
@@ -54,10 +97,13 @@ class PostReviewView(View):
             # }
             review_item = data
             # print(review_item)
-            review = Review(grade=review_item["grade"], text=review_item["text"])
+            # review = Review(grade=review_item["grade"], text=review_item["text"])
+            review = Review()
+            review.text = review_item["text"]
+            review.grade = review_item["grade"]
             review.item = item
             review.save()
-            data = { "id": item.pk}
+            data = { "id": review.pk}
 
             reviews = Review.objects.filter(item=item)
             print(reviews.values())
@@ -84,7 +130,7 @@ class GetItemView(View):
             reviews = Review.objects.filter(item=item).order_by('-pk')[:5]
             reviews.all()
             reviews_values = [*reviews.values()]
-            reviews_values.sort(key=lambda e: e['id'])
+            # reviews_values.sort(key=lambda e: e['id'])
             reviews_data = [{
                 "id":e["id"],
                 "grade":e["grade"],

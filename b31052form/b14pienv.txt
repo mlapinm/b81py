@@ -32,10 +32,17 @@ echo b04rewiew.py > b04rewiew.py
 
 echo #schemas.py > somemart\schemas.py
 
-        t = validate(data, REVIEW_SCHEMA)
-        print(2222)
-        # print(3333, t)
+---
 
+        try:
+            data = json.loads(request.body)
+            validate(data, REVIEW_SCHEMA)
+        except:
+            return HttpResponse(status=400)
+
+
+
+---
 
 
 
