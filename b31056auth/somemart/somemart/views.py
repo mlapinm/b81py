@@ -13,10 +13,11 @@ class AddItemView(View):
 
     def post(self, request):
 	# Здесь должен быть ваш код
-        print(5566)
+        print(55)
         print(request.body)
-        # print(request.HTTP_AUTHORIZATION)
+        print(555, request["username:password"])
         print(request.user)
+
         data = {"aa": "bb"}
         return JsonResponse(data, status=201)
 
