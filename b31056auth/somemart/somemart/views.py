@@ -1,3 +1,4 @@
+import base64
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
@@ -17,6 +18,19 @@ class AddItemView(View):
         print(request.body)
         print(555, request["username:password"])
         print(request.user)
+
+        print(request.META["HTTP_AUTHORIZATION"])
+        code = base64.b64encode(b'hello:world').decode()
+        print('code', code)
+
+        str = 'Hello'
+        str_bytes = str.encode('utf-8')
+        print(str_bytes)
+        encoded = base64.b64encode(b'hello')
+        print(encoded)
+
+
+        # print(t)
 
         data = {"aa": "bb"}
         return JsonResponse(data, status=201)
