@@ -1,0 +1,35 @@
+
+
+
+
+---
+
+  <div class="container">
+ 
+    <div class="row">
+
+        <div class="col-3 order-2" id="sticky-sidebar">
+            <div class="sticky-top">
+                44444
+                <br>
+                ddd
+                dfd
+                <br>
+                ddd
+            </div>
+        </div>
+        <div class="col-8" id="">
+            <h4>Main Area</h4>
+   
+        </div>
+    </div>
+
+---
+
+
+
+
+
+
+
+
