@@ -1,3 +1,4 @@
+import base64
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 
@@ -13,10 +14,22 @@ class AddItemView(View):
 
     def post(self, request):
 	# Здесь должен быть ваш код
-        print(5566)
+        print(55)
         print(request.body)
         # print(request.HTTP_AUTHORIZATION)
         print(request.user)
+        print(request.META["HTTP_AUTHORIZATION"])
+        code = base64.b64encode(b'hello:world').decode()
+        print('code', code)
+
+        str = 'Hello'
+        str_bytes = str.encode('utf-8')
+        print(str_bytes)
+        encoded = base64.b64encode(b'hello')
+        print(encoded)
+
+
+        # print(t)
         data = {"aa": "bb"}
         return JsonResponse(data, status=201)
 
