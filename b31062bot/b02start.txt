@@ -1,6 +1,24 @@
+
+/start
+
+https://replit.com/@MikhailLapin/b02telegram
+https://replit.com/@MikhailLapin/b02telegram#main.py
 pc on work
 start anaconda python
 %windir%\System32\cmd.exe "/K" C:\ProgramData\Anaconda3\Scripts\activate.bat C:\ProgramData\Anaconda3
 
+{'id': 5162619904, 'is_bot': True, 'first_name': 'BotLapin', 'username': 'mlapinbot', 'last_name': None, 'language_code': None, 'can_join_groups': True, 'can_read_all_group_messages': False, 'supports_inline_queries': False}
+
+https://t.me/mlapinbot
+https://t.me/5162619904
+https://t.me/BotLapin
+
 
 https://t.me/5162619904
+
+https://t.me/San4obazbot
+
+
+https://glitch.com/dashboard?group=owned&sortColumn=boost&sortDirection=DESC&page=1&showAll=false&filterDomain=
+
+
