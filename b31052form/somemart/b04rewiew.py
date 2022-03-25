@@ -12,8 +12,8 @@ def add_item_auth():
         "price": 99
     }
 
-    name = 'hello'
-    password = 'world'
+    name = 'Aladdin'
+    password = 'open sesame'
 
     resp = requests.post(
         url, auth = HTTPBasicAuth(
