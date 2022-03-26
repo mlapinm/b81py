@@ -1,0 +1,9 @@
+D:\avi02prog\b81env\b04env\Scripts\python.exe
+
+z E - ? w D
+-----
+1 E = x R
+1 D = y R
+
+1 R = 1 D / y R
+z E = z*(x R)
