@@ -1,0 +1,55 @@
+
+
+
+- 2
+master
+feature/rot13
+feature/vigenere
+
+git checkout -b feature/vigenere
+git checkout -b feature/rot13
+
+
+git checkout master
+git checkout feature/rot13
+git checkout feature/vigenere
+
+
+(b04env) >git branch
+  feature/rot13
+* feature/vigenere
+  master
+
+python -m unittest -v
+- 3
+git checkout master
+git checkout -b feature/dev
+- 4
+git merge --no-ff feature/rot13
+git log --graph --oneline --decorate --all
+git commit -am"merge rot13"
+- 5 
+git merge --no-ff feature/vigenere
+git stash
+git reset
+git stash
+
+
+
+git log --graph --oneline --decorate --all
+
+* 4d463b9 (HEAD -> master, origin/master, origin/HEAD) readme
+| * 7a06ceb (origin/feature/rot13) Rot13 cipher and tests
+|/
+* 23cfb94 refactor tests
+* eac88d2 fix for tests
+* c4ee2cc bugfix, refactor, decoder function
+| * 3c3d40c (origin/feature/vigenere) add vigenere cipher & tests
+| * 7743fbd bugfix in caesar & refactor
+|/
+* d278c40 caesar cipher & tests
+
+(b04env) D:\mailCloud\prjother\017python\b2264git\b04test>
+
+git log --graph
+
