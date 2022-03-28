@@ -1,0 +1,250 @@
+### 1 begin
+config user.name, user.email, init, status, add, commit -m"text", , , , , 
+D:\avi02prog\b81env\b81py\b31064git>git --version
+git version 2.24.1.windows.2
+
+D:\avi02prog\b81env\b81py\b31064git>git config user.name
+mlapinm
+D:\avi02prog\b81env\b81py\b31064git>git config user.email
+mlapin@rambler.ru
+
+D:\avi02prog\b81env\b81py\b31064git>mkdir git_test
+
+D:\avi02prog\b81env\b81py\b31064git>cd git_test
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git init
+Initialized empty Git repository in D:/avi02prog/b81env/b81py/b31064git/git_test/.git/
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo # b12hello.py >
+ b12hello.py
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo print(123) >> b12hello.py
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        b12hello.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo. > 11.pyc
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo. > 111.pyo
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>mkdir logs
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        11.pyc
+        111.pyo
+        b12hello.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo *.py[co
+] > .gitignore
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        b12hello.py
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git add .
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   b12hello.py
+        new file:   logs/.gitignore
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git commit -
+m"initial commit"
+[master (root-commit) 6443800] initial commit
+ 3 files changed, 5 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 b12hello.py
+ create mode 100644 logs/.gitignore
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+nothing to commit, working tree clean
+
+### 3 branches and remote repository
+branch, checkout, checkout -b, diff, push -u origin --all, , , , , , , , 
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch master
+nothing to commit, working tree clean
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git checkout -b feature/print-to-console
+Switched to a new branch 'feature/print-to-console'
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch feature/print-to-console
+nothing to commit, working tree clean
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>echo print('hello') >> b12hello.py
+
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>del 11.pyc
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git status
+On branch feature/print-to-console
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   b12hello.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git diff
+diff --git a/b12hello.py b/b12hello.py
+index 742f98d..6c206f2 100644
+--- a/b12hello.py
++++ b/b12hello.py
+@@ -1,2 +1,3 @@
+ # b12hello.py
+-print(123)
++print("hello")
++print('hello')
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git add .
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git commit -
+m"add some prints"
+[feature/print-to-console 1e16d34] add some prints
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git diff master
+diff --git a/b12hello.py b/b12hello.py
+index 742f98d..6c206f2 100644
+--- a/b12hello.py
++++ b/b12hello.py
+@@ -1,2 +1,3 @@
+ # b12hello.py
+-print(123)
++print("hello")
++print('hello')
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git checkout master
+Switched to branch 'master'
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>more b12hello.py
+# b12hello.py
+print(123)
+
+D:\avi02prog\b81env\b81py>git remote show origin
+* remote origin
+  Fetch URL: https://github.com/mlapinm/b81py.git
+  Push  URL: https://github.com/mlapinm/b81py.git
+  HEAD branch: main
+  Remote branch:
+    main tracked
+  Local branch configured for 'git pull':
+    main merges with remote main
+  Local ref configured for 'git push':
+    main pushes to main (up to date)
+
+git remote add origin email@rambler.ru:mlapinm/get-test.git
+git push -u origin --all
+
+### 3 union branches and diff
+clone, commit -
+am"", fetch, , , , , 
+git clone get@git.com:mlapinm/git-test.git
+D:\avi02prog\b81env\b81py>git branch -r
+  origin/HEAD -> origin/main
+  origin/main
+
+
+
+#b12hello %username%
+import sys
+who = 'world' if len(sys.argv)<2 else sys.argv[1]
+print("hello, %s" % who)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git commit -
+am"hello username"
+[feature/hello-username cd51634] hello username
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+git push --set-upstream origin feature/hello-username
+
+create merge request
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git branch
+* feature/hello-username
+  feature/print-to-console
+  master
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git checkout
+ master
+Switched to branch 'master'
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git merge --
+no-ff feature/print-to-console
+Merge made by the 'recursive' strategy.
+ b12hello.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git branch
+  feature/hello-username
+  feature/print-to-console
+* master
+
+git fetch
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git merge fe
+ature/hello-username
+Merge made by the 'recursive' strategy.
+ b12hello.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+D:\avi02prog\b81env\b81py\b31064git\git_test>git merge --no-ff feature/hello-username
+Merge made by the 'recursive' strategy.
+ b12hello.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
