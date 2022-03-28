@@ -226,6 +226,7 @@ Merge made by the 'recursive' strategy.
  b12hello.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+git log --graph
 
 
 
@@ -248,3 +249,5 @@ Merge made by the 'recursive' strategy.
 
 
 ---
+
+https://gitlab.com/abramovtv/git-test
