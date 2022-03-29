@@ -170,7 +170,7 @@ git remote add origin email@rambler.ru:mlapinm/get-test.git
 git push -u origin --all
 
 ### 3 union branches and diff
-clone, commit -am"", fetch, merge --no-ff, , , , 
+clone, commit -am"", fetch, merge --no-ff, -D, , , 
 git clone get@git.com:mlapinm/git-test.git
 D:\avi02prog\b81env\b81py>git branch -r
   origin/HEAD -> origin/main
@@ -226,6 +226,7 @@ Merge made by the 'recursive' strategy.
 
 git log --graph
 
+git branch -D feature/virgenere
 
 
 
