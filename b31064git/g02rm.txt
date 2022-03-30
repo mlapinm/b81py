@@ -1,0 +1,57 @@
+
+
+
+
+---
+- 1 steps
+git clone https://gitlab.com/abramovtv/git-test.git
+
+git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/feature/rot13
+  remotes/origin/feature/vigenere
+  remotes/origin/master
+
+git checkout feature/rot13
+
+git checkout master
+
+git checkout -b dev
+
+git merge --no-ff feature/rot13
+
+git merge --no-ff feature/vigenere
+git merge --no-ff origin/feature/vigenere
+
+git checkout master
+git merge --no-ff dev
+
+  
+git checkout feature/vigenere
+
+
+- 9 helps
+git log --graph --oneline --decorate --all
+
+*    (HEAD -> master) Merge granch 'dev'
+ \
+  *  (dev) Merge branch 'feature/vigenere' into dev
+  |\
+  | * (origin/feature/vigenere, feature/vigenere) add vigenere cipher & tests
+  | * bugfix in ceasar & refactor
+  * | Merge branch 'feature/rot13' into dev
+  |\ \
+ / / /
+  * | (origin/feature/rot13, feature/rot13) Rot13 cipher and test
+* | | (origin/master) readme
+|/ /
+* | refactor tests
+* | fix for tests
+* | bugfix, refactor, cecoder function
+|/
+*   caesar cipher & tests
+  
+git remote -v
+origin  https://gitlab.com/abramovtv/git-test.git (fetch)
+origin  https://gitlab.com/abramovtv/git-test.git (push)

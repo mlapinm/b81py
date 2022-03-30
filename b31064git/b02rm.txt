@@ -59,3 +59,39 @@ rot13 should be merged in dev
 
 git clone https://gitlab.com/abramovtv/git-test.git
 https://gitlab.com/abramovtv/git-test.git
+
+
+git log --graph --oneline --decorate --all
+*   509bbef (HEAD -> master) Merge branch 'dev'
+|\
+| *   c15feed (dev) add vigenere
+| |\
+| | * 3c3d40c (origin/feature/vigenere) add vigenere cipher & tests
+| | * 7743fbd bugfix in caesar & refactor
+| * |   40a7bdc Merge branch 'feature/rot13' into dev
+| |\ \
+|/ / /
+| * | 7a06ceb (origin/feature/rot13, feature/rot13) Rot13 cipher and tests
+* | | 4d463b9 (origin/master, origin/HEAD) readme
+|/ /
+* | 23cfb94 refactor tests
+* | eac88d2 fix for tests
+* | c4ee2cc bugfix, refactor, decoder function
+|/
+* d278c40 caesar cipher & tests
+(END)
+| |\
+| | * 3c3d40c (origin/feature/vigenere) add vigenere cipher & tests
+| | * 7743fbd bugfix in caesar & refactor
+| * |   40a7bdc Merge branch 'feature/rot13' into dev
+| |\ \
+|/ / /
+| * | 7a06ceb (origin/feature/rot13, feature/rot13) Rot13 cipher and tes
+ts
+* | | 4d463b9 (origin/master, origin/HEAD) readme
+|/ /
+* | 23cfb94 refactor tests
+* | eac88d2 fix for tests
+* | c4ee2cc bugfix, refactor, decoder function
+|/
+* d278c40 caesar cipher & tests
