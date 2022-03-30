@@ -1,0 +1,4 @@
+
+
+{'form': <ControllerForm bound=False, valid=Unknown, fields=(bedroom_target_temperature;hot_water_target_temperature;bedroom_light;bathroom_light)>, 'view': <coursera_house.core.views.ControllerView object at 0x00000259493FB710>, 'data': {'value': False, 'name': 'air_conditioner', 'created': '1648617560', 'updated': '1648617560'}}   
+[30/Mar/2022 08:19:22] "GET / HTTP/1.1" 200 11671

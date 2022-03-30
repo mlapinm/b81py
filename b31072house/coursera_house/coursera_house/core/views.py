@@ -3,6 +3,7 @@ from django.views.generic import FormView
 
 from .models import Setting
 from .form import ControllerForm
+from b02req import get_data
 
 
 class ControllerView(FormView):
@@ -12,7 +13,10 @@ class ControllerView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ControllerView, self).get_context_data()
-        context['data'] = {}
+        data = get_data()
+        context['data'] = data
+        print(context['data'])
+        print(context)
         return context
 
     def get_initial(self):
