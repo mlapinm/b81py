@@ -33,8 +33,10 @@ git merge --no-ff feature/vigenere
 git stash
 git reset
 git stash
-
-
+- 6
+- 7 
+git commit -am"add vigenere"
+- 8
 
 git log --graph --oneline --decorate --all
 
@@ -53,3 +55,7 @@ git log --graph --oneline --decorate --all
 
 git log --graph
 
+rot13 should be merged in dev
+
+git clone https://gitlab.com/abramovtv/git-test.git
+https://gitlab.com/abramovtv/git-test.git
