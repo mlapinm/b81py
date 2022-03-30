@@ -1,0 +1,59 @@
+
+
+Email: mlapin@rambler.ru
+Access token: ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f
+
+Auth.current - метод получения текущего пользователя
+
+
+curl -X GET http://smarthome.webpython.graders.eldf.ru/api/auth.current -H "Authorization: Bearer ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f"
+
+{"status": "ok", "data": {"access_token": "ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f", "email": "mlapin@rambler.ru", "first_name": "Lapin", "last_name": "Mikhail"}}
+
+
+{"status":"ok","data":{"access_token":"...","email":"...","first_name":"...","last_name":"..."}}
+- 3
+User.controller - метод получения состояния всех контроллеров
+
+curl -X GET http://smarthome.webpython.graders.eldf.ru/api/user.controller -H "Authorization: Bearer ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f"
+
+{"status": "ok", "data": [{"value": false, "name": "air_conditioner", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "bedroom_light", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "smoke_detector", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "bedroom_presence", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "bedroom_motion", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "boiler", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "cold_water", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "hot_water", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "bathroom_light", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "bathroom_motion", "created": "1648310632", "updated": "1648310633"}, {"value": false, "name": "bathroom_presence", "created": "1648310624", "updated": "1648310628"}, {"value": "open", "name": "curtains", "created": "1648310643", "updated": "1648310655"}, {"value": "off", "name": "washing_machine", "created": "1648528872", "updated": "1648528872"}, {"value": 26, "name": "bedroom_temperature", "created": "1648528872", "updated": "1648528872"}, {"value": null, "name": "boiler_temperature", "created": "1648528872", "updated": "1648528872"}, {"value": false, "name": "leak_detector", "created": "1648528872", "updated": "1648528872"}, {"value": 72, "name": "outdoor_light", "created": "1648528872", "updated": "1648528872"}]}
+
+
+User.controller - метод сохранения состояния контроллеров
+curl -X POST \
+http://smarthome.webpython.graders.eldf.ru/api/user.controller \
+-H 'Authorization: Bearer ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f' \
+-d '{
+  "controllers": [
+    {
+      "name": "air_conditioner",
+      "value": true
+    },
+    {
+      "name": "bedroom_light",
+      "value": true
+    }
+  ]
+}'
+Доступные контроллеры:
+air_conditioner - Кондиционер. Доступные значения (true, false)
+bedroom_temperature - Температура в спальне. Доступные значения - целые числа
+bedroom_light - Лампа в спальне. Доступные значения (true, false)
+smoke_detector - Датчик задымления на потолке. Доступные значения (true, false)
+bedroom_presence - Светодиод присутствия в спальне. Доступные значения (true, false)
+bedroom_motion - Датчик движения в спальне. Доступные значения (true, false)
+curtains - Занавески. Доступные значения: 
+('open' - занавески открыты, 'slightly_open' - занавески приоткрыты, 'close' - занавески закрыты)
+boiler - Бойлер. Доступные значения (true, false)
+boiler_temperature - Температура в бойлер. Доступные значения - целые числа
+cold_water - Кран холодной воды. Доступные значения (true, false)
+hot_water - Кран горячей воды. Доступные значения (true, false)
+bathroom_light - Лампа в ванной. Доступные значения (true, false)
+bathroom_motion - Датчик движения в спальне. Доступные значения (true, false)
+bathroom_presence - Светодиод присутствия в спальне. Доступные значения (true, false)
+washing_machine - Стиральная машина. Доступные значения: 
+('on' - включена, 'off' - выключена, 'broken' - сломана)
+leak_detector - Датчик протечки. Доступные значения (true, false). Доступен только на чтение.
+outdoor_light - Датчик освещенности за окном. Доступные значения (0 - 100). Доступен только на чтение.
+{"status":"ok","data":[{"value":false,"name":"..."},{"value":"...","name":"..."},{"value":100500,"name":"..."}]}
