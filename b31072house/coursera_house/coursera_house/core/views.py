@@ -16,7 +16,7 @@ class ControllerView(FormView):
         # print(11, self.form_class.base_fields['bathroom_light'].clean(True))
         kk = Setting.objects.all()
         for e in kk:
-            print(1, e.controller_name)
+            print(1, e.controller_name, e.value)
         return context
 
     def get_initial(self):
