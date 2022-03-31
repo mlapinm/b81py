@@ -13,14 +13,15 @@ class ControllerView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super(ControllerView, self).get_context_data()
-        data = get_data()
-        context['data'] = data
-        print(context['data'])
-        print(context)
+        # print(11, self.form_class.base_fields['bathroom_light'].clean(True))
+        kk = Setting.objects.all()
+        for e in kk:
+            print(1, e.controller_name)
         return context
 
     def get_initial(self):
         return {}
 
     def form_valid(self, form):
+        print(11, form)
         return super(ControllerView, self).form_valid(form)

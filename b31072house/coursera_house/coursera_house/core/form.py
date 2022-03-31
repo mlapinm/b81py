@@ -6,3 +6,4 @@ class ControllerForm(forms.Form):
     hot_water_target_temperature = forms.IntegerField()
     bedroom_light = forms.BooleanField()
     bathroom_light = forms.BooleanField()
+
