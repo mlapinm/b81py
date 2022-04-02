@@ -7,7 +7,8 @@ from .models import Feedback
 
 # Create your views here.
 
-class FcebackListView(LoginRequiredMixin, ListView):
+# class FcebackListView(LoginRequiredMixin, ListView):
+class FcebackListView(ListView):
   model = Feedback
 
   def get_queryset(self):
@@ -15,13 +16,23 @@ class FcebackListView(LoginRequiredMixin, ListView):
       return Feedback.objects.all()
     return Feedback.objects.filter(author=self.request.user)
 
-class FeedbackCreateView(LoginRequiredMixin, CreateView):
+class FeedbackCreateView(CreateView):
   model = Feedback
   fields = ['text', 'grade', 'subject']
   success_url = '/feedback/add'
 
+
   def form_valid(self, form):
+
     form.instance.author = self.request.user
+
+    a = form.cleaned_data.get('text', 'bb')
+    print('a', a)
+    
+    print('user:', self.request.user)
+    print(self.request.POST.get('text', '-0-'), 
+    self.request.POST.get('grade', '-0-'), 
+    self.request.POST.get('subject', '-0-'))
     return super().form_valid(form)
 
 

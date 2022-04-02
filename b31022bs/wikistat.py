@@ -16,7 +16,7 @@ def get_soup(file):
 
 def get_imgs(soup):
   imgs = soup('img')
-  imgs = [e for e in imgs if int(e['width']) >= 200]
+  imgs = [e for e in imgs if int(e.get('width', 0)) >= 200]
   len_imgs = len(imgs)
   # print(len_imgs, imgs)
   # print(len_imgs)
@@ -44,22 +44,19 @@ def get_headers(soup):
   # print(len(hs))
   return len(hs)
 
+from bs4 import BeautifulSoup
+
 def get_linkslen(soup):
   aa = soup.find_all('a')
   kk = []
   k = 1
   for e in aa:
-      a = e.find_next_sibling('a')
-      if a:
+      a = e.find_next_sibling()
+      if a and a.name == 'a':
           k +=1
       else:
           kk += [k]
-          if k == 13:
-              print(e)
-
           k = 1
-  kk.sort()  
-  print(kk)
   return max(kk)
 
 def get_lists(soup):
@@ -96,8 +93,9 @@ if __name__ == '__main__':
     path_ = 'b81py/b31022bs/'
     file1 = 'Stone_Age'
     file2 = 'Brain'
+    file3 = 'Artificial_intelligence'
 
-    res = parse("wiki/Stone_Age")
+    res = parse("wiki/Brain")
 
 # [19, 5, 25, 11] +
 # [19, 5, 24, 11]
