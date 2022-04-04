@@ -10,7 +10,8 @@ def get_data():
   data = resp.json()['data']
   for e in data:
     if e['name'] == 'bedroom_light':
-      print(e['name'], e['value'])
+      # print(e['name'], e['value'])
+      pass
   return data
 
 def set_data():
@@ -32,8 +33,8 @@ def set_data():
 if __name__ == "__main__":
   data = ''
   data = set_data()
-  print(data)
-  print(data.text)
+  # print(data)
+  # print(data.text)
   data = get_data()
   
   
