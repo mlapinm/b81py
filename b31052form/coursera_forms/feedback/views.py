@@ -33,6 +33,7 @@ class FeedbackCreateView(CreateView):
     print(self.request.POST.get('text', '-0-'), 
     self.request.POST.get('grade', '-0-'), 
     self.request.POST.get('subject', '-0-'))
+    # self.request.POST['text'] = '333'
     return super().form_valid(form)
 
 
