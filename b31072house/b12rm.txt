@@ -1,4 +1,8 @@
 
+bedroom_light
+bathroom_light
+
+
 dobjs[e.controller_name] = e.value
 
 

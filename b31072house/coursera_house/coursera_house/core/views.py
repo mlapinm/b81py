@@ -29,10 +29,20 @@ class ControllerView(FormView):
         return context
 
     def get_initial(self):
-        req = HttpRequest()
-        # print(req)
+
+        controls = get_data()
+        dcontrols = {}
+        for e in controls:
+            dcontrols[e['name']] = e['value']
         objs = Setting.objects.all()
+
         init_data = {}
+        if 'bedroom_light' in dcontrols.keys():
+            init_data['bedroom_light'] = dcontrols['bedroom_light']
+        if 'bathroom_light' in dcontrols.keys():
+            init_data['bathroom_light'] = dcontrols['bathroom_light']
+        # init_data['bathroom_light'] = True
+        print(2, dcontrols['bedroom_light'])
         for e in objs:
             init_data[e.controller_name] = e.value
 
