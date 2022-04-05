@@ -4,7 +4,7 @@ from django.views.generic import FormView
 
 from .models import Setting
 from .form import ControllerForm
-from .b02req import get_data
+from .b02req import get_data, set_data
 
 
 class ControllerView(FormView):
@@ -19,11 +19,16 @@ class ControllerView(FormView):
         dcontrols = {}
         for e in controls:
             dcontrols[e['name']] = e['value']
-        objs = Setting.objects.all()
-        for e in objs:
-            print(e.pk, 1, e.controller_name, e.value, '|', e.label, '|')
 
-        context['bedroom_target_temperature'] = 21
+
+        controls = get_data()
+        dcontrols = {}
+        for e in controls:
+            dcontrols[e['name']] = e['value']
+
+
+
+
 
         context['data'] = dcontrols
         return context
@@ -39,15 +44,44 @@ class ControllerView(FormView):
         init_data = {}
         if 'bedroom_light' in dcontrols.keys():
             init_data['bedroom_light'] = dcontrols['bedroom_light']
+            pass
         if 'bathroom_light' in dcontrols.keys():
             init_data['bathroom_light'] = dcontrols['bathroom_light']
-        # init_data['bathroom_light'] = True
-        print(2, dcontrols['bedroom_light'])
+            pass
+
         for e in objs:
             init_data[e.controller_name] = e.value
+            pass
 
         return init_data
 
     def form_valid(self, form):
-        print(11, form)
+        if not form.is_valid():
+            return super(ControllerView, self).form_valid(form)
+        data2 = {
+        "controllers": [
+        {
+            "name": "bedroom_light",
+            "value": form.cleaned_data['bedroom_light']
+        },
+        {
+            "name": "bathroom_light",
+            "value": form.cleaned_data['bathroom_light']
+        }
+        ]
+        }
+        set_data(data2)
+
+        objs = Setting.objects.all()
+        for e in objs:
+            if e.controller_name == 'bedroom_target_temperature':
+                e.value = form.cleaned_data['bedroom_target_temperature']
+                e.save()
+            if e.controller_name == 'hot_water_target_temperature':
+                e.value = form.cleaned_data['hot_water_target_temperature']
+                e.save()
+                pass
+
+        
+ 
         return super(ControllerView, self).form_valid(form)

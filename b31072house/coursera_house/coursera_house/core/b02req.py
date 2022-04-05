@@ -14,18 +14,22 @@ def get_data():
       pass
   return data
 
-def set_data():
+def set_data(data):
+  '''
+    data = {
+    "controllers": [
+      {
+        "name": "bedroom_light",
+        "value": False
+      }
+    ]
+    }
+  '''
+
+
   url = 'http://smarthome.webpython.graders.eldf.ru/api/user.controller'
   global headers
 
-  data = {
-  "controllers": [
-    {
-      "name": "bedroom_light",
-      "value": False
-    }
-  ]
-  }
   resp = requests.post(url, headers=headers, json=data)
   return resp
 
