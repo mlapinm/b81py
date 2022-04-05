@@ -26,10 +26,8 @@ def set_data(data):
   }
   '''
 
-
   url = 'http://smarthome.webpython.graders.eldf.ru/api/user.controller'
   global headers
-
 
   resp = requests.post(url, headers=headers, json=data)
   return resp

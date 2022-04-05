@@ -41,6 +41,7 @@ class ControllerView(FormView):
 
         for e in objs:
             init_data[e.controller_name] = e.value
+            print(555, e.value)
 
         smart_home_manager()
 
@@ -64,6 +65,16 @@ class ControllerView(FormView):
         dcontrols = {}
         for e in controls:
             dcontrols[e['name']] = e['value']
+        for e in objs:
+            controller_name = 'bedroom_target_temperature'
+            if e.controller_name == controller_name:
+                e.value = form.cleaned_data[controller_name]
+                e.save()
+            controller_name = 'hot_water_target_temperature'
+            if e.controller_name == controller_name:
+                e.value = form.cleaned_data[controller_name]
+                e.save()
+
 
 
         data2 = {
