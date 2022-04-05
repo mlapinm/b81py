@@ -6,7 +6,7 @@ from coursera_house.settings import EMAIL_HOST_USER, EMAIL_RECEPIENT
 
 from .models import Setting
 from .form import ControllerForm
-from b02req import get_data
+from .b02req import get_data, set_data
 
 
 class ControllerView(FormView):
@@ -17,22 +17,73 @@ class ControllerView(FormView):
     def get_context_data(self, **kwargs):
         context = super(ControllerView, self).get_context_data()
 
-        # n = send_mail('2', '22', EMAIL_HOST_USER, [EMAIL_RECEPIENT], fail_silently=True)
+        controls = get_data()
+        dcontrols = {}
+        for e in controls:
+            dcontrols[e['name']] = e['value']
+        objs = Setting.objects.all()
+        for e in objs:
+            print(e.pk, 1, e.controller_name, e.value, '|', e.label, '|')
 
-        print(11, self.form_class.base_fields['bathroom_light'].clean(True))
-        kk = Setting.objects.all()
-        for e in kk:
-            print(1, e.controller_name, e.value)
-            
+        # context['bedroom_target_temperature'] = 21
+
+        context['data'] = dcontrols        
         return context
 
     def get_initial(self):
-        print(44)
-        # self.form_class
-        # ControllerForm.hot_water_target_temperature = 3
-        form = {}
-        return {'hot_water_target_temperature': 5}
+        controls = get_data()
+        dcontrols = {}
+        for e in controls:
+            dcontrols[e['name']] = e['value']
+        objs = Setting.objects.all()
+
+        init_data = {}
+        if 'bedroom_light' in dcontrols.keys():
+            init_data['bedroom_light'] = dcontrols['bedroom_light']
+        if 'bathroom_light' in dcontrols.keys():
+            init_data['bathroom_light'] = dcontrols['bathroom_light']
+
+        for e in objs:
+            init_data[e.controller_name] = e.value
+
+        return init_data
 
     def form_valid(self, form):
-        print(11, form)
+        print(1111, form.cleaned_data)
+
+        objs = Setting.objects.all()
+        for e in objs:
+            controller_name = 'bedroom_target_temperature'
+            if e.controller_name == controller_name:
+                e.value = form.cleaned_data[controller_name]
+                e.save()
+            controller_name = 'hot_water_target_temperature'
+            if e.controller_name == controller_name:
+                e.value = form.cleaned_data[controller_name]
+                e.save()
+
+
+        controls = get_data()
+        dcontrols = {}
+        for e in controls:
+            dcontrols[e['name']] = e['value']
+
+
+        data2 = {
+        "controllers": [
+            {
+            "name": "bedroom_light",
+            "value": form.cleaned_data['bedroom_light']
+            },
+            {
+            "name": "bathroom_light",
+            "value": form.cleaned_data['bathroom_light']
+            }
+        ]
+        }
+        set_data(data2)
+        
+
+
+
         return super(ControllerView, self).form_valid(form)

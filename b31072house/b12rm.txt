@@ -1,7 +1,8 @@
 
 bedroom_light
 bathroom_light
-
+bedroom_target_temperature
+hot_water_target_temperature
 
 dobjs[e.controller_name] = e.value
 
