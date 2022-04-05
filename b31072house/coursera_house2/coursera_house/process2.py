@@ -1,6 +1,5 @@
 #process.py
-# from .coursera_house.core.tasks import *
-from coursera_house.core.tasks import *
+from .core.tasks import *
 import time
 
 

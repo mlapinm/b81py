@@ -7,6 +7,7 @@ from coursera_house.settings import EMAIL_HOST_USER, EMAIL_RECEPIENT
 from .models import Setting
 from .form import ControllerForm
 from .b02req import get_data, set_data
+from .tasks import smart_home_manager
 
 
 class ControllerView(FormView):
@@ -21,11 +22,6 @@ class ControllerView(FormView):
         dcontrols = {}
         for e in controls:
             dcontrols[e['name']] = e['value']
-        objs = Setting.objects.all()
-        for e in objs:
-            print(e.pk, 1, e.controller_name, e.value, '|', e.label, '|')
-
-        # context['bedroom_target_temperature'] = 21
 
         context['data'] = dcontrols        
         return context
@@ -46,10 +42,11 @@ class ControllerView(FormView):
         for e in objs:
             init_data[e.controller_name] = e.value
 
+        smart_home_manager()
+
         return init_data
 
     def form_valid(self, form):
-        print(1111, form.cleaned_data)
 
         objs = Setting.objects.all()
         for e in objs:
@@ -82,8 +79,5 @@ class ControllerView(FormView):
         ]
         }
         set_data(data2)
-        
-
-
 
         return super(ControllerView, self).form_valid(form)

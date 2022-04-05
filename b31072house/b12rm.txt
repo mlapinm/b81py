@@ -1,4 +1,9 @@
 
+
+{'air_conditioner': False, 'bedroom_light': True, 'smoke_detector': False, 'bedroom_presence': False, 'bedroom_motion': False, 'boiler': False, 'cold_water': False, 'hot_water': False, 'bathroom_light': False, 'bathroom_motion': False, 'bathroom_presence': False, 'curtains': 'open', 'washing_machine': 'off', 'bedroom_temperature': 28, 'boiler_temperature': 32, 'leak_detector': False, 'outdoor_light': 72}
+
+
+
 bedroom_light
 bathroom_light
 bedroom_target_temperature
