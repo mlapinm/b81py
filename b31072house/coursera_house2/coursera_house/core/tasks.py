@@ -1,7 +1,9 @@
 from __future__ import absolute_import, unicode_literals
 from celery import task
+from django.conf import settings
+
 from .models import Setting
-from .b02req import get_data, set_data
+from .b02req import get_data, set_data, send_mail_user
 
 @task()
 def smart_home_manager():
@@ -23,19 +25,27 @@ def smart_home_manager():
         if e.controller_name == 'hot_water_target_temperature':
             htt = e.value
 
+    # dcontrols['leak_detector'] = True        
+
     if dcontrols['leak_detector'] == True:  # 1
+        dcontrols['cold_water'] = False
+        dcontrols['hot_water'] = False
         wcontrols['cold_water'] = False
         wcontrols['hot_water'] = False
 
     if dcontrols['cold_water'] == False:  # 2
+        dcontrols['boiler'] = False
+        dcontrols['washing_machine'] = 'off'
         wcontrols['boiler'] = False
         wcontrols['washing_machine'] = 'off'
+
+    print(wcontrols['boiler'])
  
     bt = dcontrols['boiler_temperature']  # 3
 
-    if bt < 0.9 * htt:
+    if bt and bt < 0.9 * htt:
         wcontrols['boiler'] = True
-    elif bt > 1.1 * htt:
+    elif bt and bt > 1.1 * htt:
         wcontrols['boiler'] = False
     
 
@@ -53,13 +63,13 @@ def smart_home_manager():
         wcontrols['washing_machine'] == 'on'
 
     bt = dcontrols['bedroom_temperature']  # 7
-    if bt > 1.1 * btt:
+    if bt and bt > 1.1 * btt:
         wcontrols['air_conditioner'] = True
-    elif bt < 0.9 * btt:
+    elif bt and bt < 0.9 * btt:
         wcontrols['air_conditioner'] = False
 
 
-    items = [(k,v) for k, v in wcontrols.items()]
+    items = [(k, v) for k, v in wcontrols.items()]
     wcontrols2 = [{'name': k, 'value': v} for k, v in items]
 
 
@@ -79,10 +89,11 @@ def smart_home_manager():
         }
     ]
     }
-
-
     res = set_data(data)
-    print(4, res, data)
+    print(11, res, data)
 
 
-    pass
+
+    
+
+

@@ -1,8 +1,6 @@
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from django.core.mail import send_mail
 
-from coursera_house.settings import EMAIL_HOST_USER, EMAIL_RECEPIENT
 
 from .models import Setting
 from .form import ControllerForm
@@ -44,6 +42,9 @@ class ControllerView(FormView):
             print(555, e.value)
 
         smart_home_manager()
+
+
+
 
         return init_data
 

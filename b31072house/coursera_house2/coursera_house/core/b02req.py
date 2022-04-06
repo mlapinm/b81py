@@ -1,12 +1,27 @@
 import requests
+from coursera_house.settings import SMART_HOME_API_URL, SMART_HOME_ACCESS_TOKEN
 
-headers = {"Authorization": "Bearer ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f"}
+from django.core.mail import send_mail
+from coursera_house.settings import EMAIL_RECEPIENT
+
+def send_mail_user(subject, text):
+    n = send_mail(subject, text, 'mlapin@rambler.ru', [EMAIL_RECEPIENT], fail_silently=True)
+    return (n, EMAIL_RECEPIENT)
+
+
+headers = {"Authorization": "Bearer {}".format(SMART_HOME_ACCESS_TOKEN)}
+
 
 def get_data():
-  url = 'http://smarthome.webpython.graders.eldf.ru/api/user.controller'
+  url = SMART_HOME_API_URL
+
   global headers
 
   resp = requests.get(url, headers=headers)
+  if resp.status_code != 200:
+    text = '{}'.format(resp)
+    send_mail_user('smart_home_b02', text)
+
   data = resp.json()['data']
   for e in data:
     if e['name'] == 'bedroom_light':
@@ -26,10 +41,13 @@ def set_data(data):
   }
   '''
 
-  url = 'http://smarthome.webpython.graders.eldf.ru/api/user.controller'
+  url = SMART_HOME_API_URL
   global headers
 
   resp = requests.post(url, headers=headers, json=data)
+  if resp.status_code != 200:
+    text = '{}'.format(resp)
+    send_mail_user('smart_home_b02', text)
   return resp
 
 

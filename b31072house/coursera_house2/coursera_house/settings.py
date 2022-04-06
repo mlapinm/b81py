@@ -121,12 +121,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 SMART_HOME_ACCESS_TOKEN = os.getenv('SMART_HOME_ACCESS_TOKEN')
 SMART_HOME_API_URL = os.getenv('SMART_HOME_API_URL', 'http://smarthome.webpython.graders.eldf.ru/api/user.controller')
-EMAIL_HOST  = 'smtp.rambler.ru'
+EMAIL_HOST  = os.getenv('EMAIL_HOST', 'EMAIL_HOST')
 EMAIL_PORT  = 465
-# EMAIL_RECEPIENT  = 'mmlapinm@gmail.com'
-EMAIL_RECEPIENT  = 'mlapinm@yandex.ru'
+EMAIL_RECEPIENT  = 'mmlapinm@gmail.com'
 EMAIL_HOST_USER = 'mlapin@rambler.ru'
-EMAIL_HOST_PASSWORD = '1qaz2wsX'
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
