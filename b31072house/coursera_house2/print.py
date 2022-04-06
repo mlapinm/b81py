@@ -1,7 +1,21 @@
 import zipfile
+import os
 
-with zipfile.ZipFile('coree.zip', 'w') as myzip:
-    myzip.write('manage.py')
-    myzip.write('process.py')
 
-print(123)
+
+def make_core():
+
+    with zipfile.ZipFile('core.zip', 'w') as myzip:
+
+        path = 'coursera_house/core/'
+        os.chdir(path)
+        for f in os.listdir():
+            myzip.write(f)
+
+
+if __name__ == "__main__":
+
+    make_core()
+    print(123)
+
+

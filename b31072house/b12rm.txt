@@ -1,15 +1,4 @@
 
-SMART_HOME_API_URL
-SMART_HOME_ACCESS_TOKEN
-ce7b25df7e3b6b62379be94ebd6918190ad4544222b4de39cb963fb2162e5e6f
-'http://smarthome.webpython.graders.eldf.ru/api/user.controller'
-EMAIL_RECEPIENT
-
-
-Для отсылки писем нужно использовать send_mail из django.core.mail, а в settings нужно задать настройки EMAIL_HOST,  EMAIL_PORT и другие EMAIL_*, так чтобы во время разработки вы отправляли письма через какую-нибудь почтовую систему и могли проверить их работу. Во время проверки задания на сервере эти настройки будут переопределены.
-
-# bedroom_light bathroom_light boiler washing_machine   
-
 {'air_conditioner': False, 
 'bedroom_light': True, 
 'smoke_detector': False, 

@@ -66,6 +66,17 @@ class ControllerView(FormView):
         dcontrols = {}
         for e in controls:
             dcontrols[e['name']] = e['value']
+
+        lctrls = [
+            'bedroom_light',
+            'bathroom_light'
+        ]
+
+        items_old = [(k, v) for k, v in dcontrols.items() if k in lctrls]
+        # print(items_old)
+
+
+
         for e in objs:
             controller_name = 'bedroom_target_temperature'
             if e.controller_name == controller_name:
@@ -76,20 +87,29 @@ class ControllerView(FormView):
                 e.value = form.cleaned_data[controller_name]
                 e.save()
 
+        for k, v in dcontrols.items():
+            # dcontrols[k] = form.cleaned_data[k]
+            print(k,  v)
+
+            pass
+
+        print(1)
+        return super(ControllerView, self).form_valid(form)
+
+        items = [(k, v) for k, v in dcontrols.items() if k in lctrls]
+
+        need_send = False
+        for i, e in enumerate(items):
+            if e != items_old[i]:
+                need_send = True
+
+        dcontrols2 = [{'name': k, 'value': v} for k, v in items]
 
 
         data2 = {
-        "controllers": [
-            {
-            "name": "bedroom_light",
-            "value": form.cleaned_data['bedroom_light']
-            },
-            {
-            "name": "bathroom_light",
-            "value": form.cleaned_data['bathroom_light']
-            }
-        ]
+        "controllers": dcontrols2
         }
-        set_data(data2)
+        if need_send:
+            set_data(data2)
 
         return super(ControllerView, self).form_valid(form)

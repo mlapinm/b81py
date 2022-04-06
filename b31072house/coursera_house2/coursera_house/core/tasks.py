@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+from unicodedata import numeric
 from celery import task
 from django.conf import settings
 
@@ -12,7 +13,6 @@ def smart_home_manager():
 
     controls = get_data()
     dcontrols = {}
-    wcontrols = {}
 
     btt = 0
     htt = 0
@@ -25,56 +25,84 @@ def smart_home_manager():
         if e.controller_name == 'hot_water_target_temperature':
             htt = e.value
 
+    lctrls = [
+        'air_conditioner',
+        'bedroom_light',
+        'bathroom_light',
+        'curtains',
+        'boiler',
+        'cold_water',
+        'hot_water',
+        'washing_machine'
+    ]
+
+    items_old = [(k, v) for k, v in dcontrols.items() if k in lctrls]
+
+
+
+
     # dcontrols['leak_detector'] = True        
 
     if dcontrols['leak_detector'] == True:  # 1
         dcontrols['cold_water'] = False
         dcontrols['hot_water'] = False
-        wcontrols['cold_water'] = False
-        wcontrols['hot_water'] = False
+        send_mail_user('sm_house_b02', 'leak_detector')
+
+    boiler_on = True
 
     if dcontrols['cold_water'] == False:  # 2
         dcontrols['boiler'] = False
         dcontrols['washing_machine'] = 'off'
-        wcontrols['boiler'] = False
-        wcontrols['washing_machine'] = 'off'
+        boiler_on = False
 
-    print(wcontrols['boiler'])
+    # print(wcontrols['boiler'])
  
     bt = dcontrols['boiler_temperature']  # 3
 
-    if bt and bt < 0.9 * htt:
-        wcontrols['boiler'] = True
+    if bt and bt < 0.9 * htt and boiler_on:
+        dcontrols['boiler'] = True
     elif bt and bt > 1.1 * htt:
-        wcontrols['boiler'] = False
+        dcontrols['boiler'] = False
     
 
     if dcontrols['curtains'] != 'slightly_open':  # 4 5
         if dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == False:
-            wcontrols['curtains'] = 'open'
+            dcontrols['curtains'] = 'open'
         elif dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == True:
-            wcontrols['curtains'] = 'close'
+            dcontrols['curtains'] = 'close'
 
+    air_conditioner_on = True
     if dcontrols['smoke_detector'] == True:  # 6
-        wcontrols['air_conditioner'] == False
-        wcontrols['bedroom_light'] == False
-        wcontrols['bathroom_light'] == False
-        wcontrols['boiler'] == False
-        wcontrols['washing_machine'] == 'on'
+        dcontrols['air_conditioner'] == False
+        air_conditioner_on = False
+        dcontrols['bedroom_light'] == False
+        dcontrols['bathroom_light'] == False
+        dcontrols['boiler'] == False
+        dcontrols['washing_machine'] == 'off'
+        send_mail_user('sm_house_b02', 'smoke_detector')
 
     bt = dcontrols['bedroom_temperature']  # 7
-    if bt and bt > 1.1 * btt:
-        wcontrols['air_conditioner'] = True
+    if bt and bt > 1.1 * btt and air_conditioner_on:
+        dcontrols['air_conditioner'] = True
     elif bt and bt < 0.9 * btt:
-        wcontrols['air_conditioner'] = False
+        dcontrols['air_conditioner'] = False
 
 
-    items = [(k, v) for k, v in wcontrols.items()]
-    wcontrols2 = [{'name': k, 'value': v} for k, v in items]
+    items = [(k, v) for k, v in dcontrols.items() if k in lctrls]
+
+    need_change = False
+    for i, e in enumerate(items):
+        if e != items_old[i]:
+            need_change = True
+
+
+
+
+    dcontrols2 = [{'name': k, 'value': v} for k, v in items]
 
 
     data = {
-        "controllers": wcontrols2
+        "controllers": dcontrols2
     }
 
     data2 = {
@@ -89,7 +117,9 @@ def smart_home_manager():
         }
     ]
     }
-    res = set_data(data)
+    res = 0
+    if need_change:
+        res = set_data(data)
     print(11, res, data)
 
 
