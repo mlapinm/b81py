@@ -69,12 +69,20 @@ def smart_home_manager():
         dcontrols['boiler'] = False
     else:
         dcontrols['boiler'] = False
+
+    print(bt, htt, dcontrols['boiler'], bt and bt > 1.1 * htt, bt and bt < 0.9 * htt)
+
+
+
 # slightly_open
     if dcontrols['curtains'] != 'slightly_open':  # 4 5
-        if dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == False:
+        if dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == False:
             dcontrols['curtains'] = 'open'
-        elif dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == True:
+        elif dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == True:
             dcontrols['curtains'] = 'close'
+    else:
+        # lctrls = [e for e in lctrls if e != 'slightly_open']
+        pass
 
     air_conditioner_on = True
 
@@ -87,12 +95,12 @@ def smart_home_manager():
 
 
     if dcontrols['smoke_detector'] == True:  # 6
-        dcontrols['air_conditioner'] == False
+        dcontrols['air_conditioner'] = False
         air_conditioner_on = False
-        dcontrols['bedroom_light'] == False
-        dcontrols['bathroom_light'] == False
-        dcontrols['boiler'] == False
-        dcontrols['washing_machine'] == 'off'
+        dcontrols['bedroom_light'] = False
+        dcontrols['bathroom_light'] = False
+        dcontrols['boiler'] = False
+        dcontrols['washing_machine'] = 'off'
         send_mail_user('sm_house_b02', 'smoke_detector')
 
 
@@ -118,4 +126,5 @@ def smart_home_manager():
         res = set_data(data)
     print(11, need_change)
 
-
+if __name__ == "__main__":
+    smart_home_manager()
