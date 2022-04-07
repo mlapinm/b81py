@@ -1,4 +1,9 @@
 
+
+    bedroom_target_temperature = forms.IntegerField(required=False, min_value=16, max_value=50)
+    hot_water_target_temperature = forms.IntegerField(required=False, min_value=24, max_value=90)
+
+
 {'air_conditioner': False, 
 'bedroom_light': True, 
 'smoke_detector': False, 

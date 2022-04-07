@@ -100,6 +100,7 @@ class ControllerView(FormView):
         }
         if need_send:
             set_data(data2)
+            pass
 
         return super(ControllerView, self).form_valid(form)
 

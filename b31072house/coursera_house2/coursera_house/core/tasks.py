@@ -69,7 +69,7 @@ def smart_home_manager():
         dcontrols['boiler'] = False
     else:
         dcontrols['boiler'] = False
-
+# slightly_open
     if dcontrols['curtains'] != 'slightly_open':  # 4 5
         if dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == False:
             dcontrols['curtains'] = 'open'
@@ -77,6 +77,15 @@ def smart_home_manager():
             dcontrols['curtains'] = 'close'
 
     air_conditioner_on = True
+
+    bt = dcontrols['bedroom_temperature']  # 7
+    if bt and bt > 1.1 * btt and air_conditioner_on:
+        dcontrols['air_conditioner'] = True
+    elif bt and bt < 0.9 * btt:
+        dcontrols['air_conditioner'] = False
+
+
+
     if dcontrols['smoke_detector'] == True:  # 6
         dcontrols['air_conditioner'] == False
         air_conditioner_on = False
@@ -86,22 +95,19 @@ def smart_home_manager():
         dcontrols['washing_machine'] == 'off'
         send_mail_user('sm_house_b02', 'smoke_detector')
 
-    bt = dcontrols['bedroom_temperature']  # 7
-    if bt and bt > 1.1 * btt and air_conditioner_on:
-        dcontrols['air_conditioner'] = True
-    elif bt and bt < 0.9 * btt:
-        dcontrols['air_conditioner'] = False
 
     items = [(k, v) for k, v in dcontrols.items() if k in lctrls]
 
+    print('items', items)
+
     need_change = False
-    items_send = []
+    # items_send = []
     for i, e in enumerate(items):
         if e != items_old[i]:
-            items_send += [e]
+            # items_send += [e]
             need_change = True
 
-    dcontrols2 = [{'name': k, 'value': v} for k, v in items_send]
+    dcontrols2 = [{'name': k, 'value': v} for k, v in items]
 
     data = {
         "controllers": dcontrols2
