@@ -15,10 +15,11 @@ headers = {"Authorization": "Bearer {}".format(SMART_HOME_ACCESS_TOKEN)}
 def get_data():
   url = SMART_HOME_API_URL
 
+
   global headers
 
   resp = requests.get(url, headers=headers)
-  if resp.status_code != 200:
+  if resp.status_code >= 400:
     text = '{}'.format(resp)
     send_mail_user('smart_home_b02', text)
 
@@ -45,7 +46,7 @@ def set_data(data):
   global headers
 
   resp = requests.post(url, headers=headers, json=data)
-  if resp.status_code != 200:
+  if resp.status_code  >= 400:
     text = '{}'.format(resp)
     send_mail_user('smart_home_b02', text)
   return resp
@@ -53,10 +54,10 @@ def set_data(data):
 
 if __name__ == "__main__":
   data = ''
-  data = set_data()
+  # data = set_data()
   # print(data)
   # print(data.text)
-  data = get_data()
+  # data = get_data()
   
   
   # print(data)

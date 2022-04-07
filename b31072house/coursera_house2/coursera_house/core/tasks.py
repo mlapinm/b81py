@@ -18,6 +18,9 @@ def smart_home_manager():
     htt = 0
     for e in controls:
         dcontrols[e['name']] = e['value']
+
+    if len(dcontrols) == 0:
+        return    
     objs = Setting.objects.all()
     for e in objs:
         if e.controller_name == 'bedroom_target_temperature':
@@ -42,13 +45,14 @@ def smart_home_manager():
 
 
     # dcontrols['leak_detector'] = True        
+    boiler_on = True
 
     if dcontrols['leak_detector'] == True:  # 1
         dcontrols['cold_water'] = False
         dcontrols['hot_water'] = False
+        boiler_on = False
         send_mail_user('sm_house_b02', 'leak_detector')
 
-    boiler_on = True
 
     if dcontrols['cold_water'] == False:  # 2
         dcontrols['boiler'] = False
@@ -61,14 +65,15 @@ def smart_home_manager():
 
     if bt and bt < 0.9 * htt and boiler_on:
         dcontrols['boiler'] = True
-    elif bt and bt > 1.1 * htt:
+    elif bt and bt > 1.1 * htt and boiler_on:
         dcontrols['boiler'] = False
-    
+    else:
+        dcontrols['boiler'] = False
 
     if dcontrols['curtains'] != 'slightly_open':  # 4 5
-        if dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == False:
+        if dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == False:
             dcontrols['curtains'] = 'open'
-        elif dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == True:
+        elif dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == True:
             dcontrols['curtains'] = 'close'
 
     air_conditioner_on = True
@@ -87,43 +92,24 @@ def smart_home_manager():
     elif bt and bt < 0.9 * btt:
         dcontrols['air_conditioner'] = False
 
-
     items = [(k, v) for k, v in dcontrols.items() if k in lctrls]
 
     need_change = False
+    items_send = []
     for i, e in enumerate(items):
         if e != items_old[i]:
+            items_send += [e]
             need_change = True
 
-
-
-
-    dcontrols2 = [{'name': k, 'value': v} for k, v in items]
-
+    dcontrols2 = [{'name': k, 'value': v} for k, v in items_send]
 
     data = {
         "controllers": dcontrols2
     }
 
-    data2 = {
-    "controllers": [
-        {
-        "name": "boiler",
-        "value": dcontrols['boiler']
-        },
-        {
-        "name": "bathroom_light",
-        "value": False
-        }
-    ]
-    }
     res = 0
     if need_change:
         res = set_data(data)
-    print(11, res, data)
-
-
-
-    
+    print(11, need_change)
 
 

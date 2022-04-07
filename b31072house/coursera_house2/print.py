@@ -16,6 +16,6 @@ def make_core():
 if __name__ == "__main__":
 
     make_core()
-    print(123)
+
 
 
