@@ -78,7 +78,7 @@ def smart_home_manager():
     if dcontrols['curtains'] != 'slightly_open':  # 4 5
         if dcontrols['outdoor_light'] < 50 and dcontrols['bedroom_light'] == False:
             dcontrols['curtains'] = 'open'
-        elif dcontrols['outdoor_light'] > 50 and dcontrols['bedroom_light'] == True:
+        elif dcontrols['outdoor_light'] >= 50 or dcontrols['bedroom_light'] == True:
             dcontrols['curtains'] = 'close'
     else:
         # lctrls = [e for e in lctrls if e != 'slightly_open']
